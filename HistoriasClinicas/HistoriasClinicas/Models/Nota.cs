@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,9 +8,11 @@ namespace HistoriasClinicas.Models
 {
     public class Nota
     {
-        public Evolucion evolucion { get; set; }
-        public Empleado empleado { get; set; }
-        public String mensaje { get; set; }
-        public DateTime fechaYHora { get; set; }
+        public Evolucion Evolucion { get; set; }
+        public Empleado Empleado { get; set; }
+        public string Mensaje { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime FechaYHora { get; set; }
     }
 }

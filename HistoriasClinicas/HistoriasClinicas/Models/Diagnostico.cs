@@ -7,8 +7,8 @@ namespace HistoriasClinicas.Models
 {
     public class Diagnostico
     {
-        public Epicrisis epicrisis { get; set; }
-        public String descripcion { get; set; }
-        public String recomendacion { get; set; }
+        public Epicrisis Epicrisis { get; set; }
+        public string Descripcion { get; set; }
+        public string Recomendacion { get; set; }
     }
 }

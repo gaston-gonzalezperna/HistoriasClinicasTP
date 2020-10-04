@@ -7,7 +7,7 @@ namespace HistoriasClinicas.Models
 {
     public class Medico : Persona
     {
-        public int matricula { get; set; }
-        public String especialidad { get; set; }
+        public string Matricula { get; set; }
+        public string Especialidad { get; set; }
     }
 }

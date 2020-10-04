@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace HistoriasClinicas.Models
 {
     public class Evolucion
     {
-        public Medico medico { get; set; }
-        public DateTime fechaYHoraInicio { get; set; }
-        public DateTime fechaYHoraAlta { get; set; }
+        public Medico Medico { get; set; }
 
-        public DateTime fechaYHoraCierre { get; set; }
-        public String descripcionAtencion { get; set; }
-        public Boolean estadoAbierto { get; set; }
-        public Nota notas { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime FechaYHoraInicio { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime FechaYHoraAlta { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime FechaYHoraCierre { get; set; }
+        public string DescripcionAtencion { get; set; }
+        public bool EstadoAbierto { get; set; }
+        public List<Nota> Notas { get; set; }
     }
 }

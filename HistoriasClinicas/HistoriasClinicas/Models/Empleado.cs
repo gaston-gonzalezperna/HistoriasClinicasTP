@@ -7,7 +7,6 @@ namespace HistoriasClinicas.Models
 {
     public class Empleado : Persona
     {
-        public String legajo { get; set; }
-
+        public string Legajo { get; set; }
     }
 }
