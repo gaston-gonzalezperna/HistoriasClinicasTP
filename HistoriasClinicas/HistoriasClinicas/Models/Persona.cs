@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoriasClinicas.Models
 {
-    public class Persona
+    public abstract class Persona
     {
+        public int ID { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
 

@@ -6,6 +6,7 @@ namespace HistoriasClinicas.Models
 {
     public class Evolucion
     {
+        public int ID { get; set; }
         public Medico Medico { get; set; }
 
         [DataType(DataType.DateTime)]
