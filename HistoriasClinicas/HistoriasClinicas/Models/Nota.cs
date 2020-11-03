@@ -8,6 +8,7 @@ namespace HistoriasClinicas.Models
 {
     public class Nota
     {
+        public int ID { get; set; }
         public Evolucion Evolucion { get; set; }
         public Empleado Empleado { get; set; }
         public string Mensaje { get; set; }

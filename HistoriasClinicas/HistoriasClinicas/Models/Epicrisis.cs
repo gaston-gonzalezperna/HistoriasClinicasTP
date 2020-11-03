@@ -8,6 +8,7 @@ namespace HistoriasClinicas.Models
 {
     public class Epicrisis
     {
+        public int ID { get; set; }
         public Episodio Episodio { get; set; }
         public Medico Medico { get; set; }
 
