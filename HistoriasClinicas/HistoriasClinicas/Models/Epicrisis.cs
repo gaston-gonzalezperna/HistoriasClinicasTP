@@ -8,12 +8,14 @@ namespace HistoriasClinicas.Models
 {
     public class Epicrisis
     {
-        public int ID { get; set; }
-        public Episodio Episodio { get; set; }
+        public int Id { get; set; }
         public Medico Medico { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime FechaYHora { get; set; }
         public Diagnostico Diagnostico { get; set; }
+
+        public int IdEpisodio { get; set; }
+        public Episodio Episodio { get; set; }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HistoriasClinicas.Data;
+using HistoriasClinicas.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,17 @@ namespace HistoriasClinicas
             services.AddControllersWithViews();
             services.AddDbContext<EFContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DB-CS-CURSO-E")));
+
+            services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<EFContext>();
+            services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+                opciones =>
+                {
+                    opciones.LoginPath = "/Accounts/IniciarSesion";
+                    opciones.AccessDeniedPath = "/Accounts/AccesoDenegado";
+                }
+                );
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +61,7 @@ namespace HistoriasClinicas
 
             app.UseRouting();
 
+            app.UseAuthorization();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

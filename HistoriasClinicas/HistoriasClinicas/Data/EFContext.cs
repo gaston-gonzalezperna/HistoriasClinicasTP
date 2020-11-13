@@ -1,4 +1,6 @@
 ﻿using HistoriasClinicas.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace HistoriasClinicas.Data
 {
-    public class EFContext : DbContext
+    public class EFContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> 
     {
-        public EFContext(DbContextOptions<EFContext> options) : base(options)
+        public EFContext (DbContextOptions<EFContext> options) : base(options)
         {
         }
 
@@ -26,14 +28,35 @@ namespace HistoriasClinicas.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Diagnostico>()
-            .HasOne(a => a.Epicrisis)
-            .WithOne(a => a.Diagnostico);
-            //.HasForeignKey<CapitalCity>(c => c.CountryID);
-            modelBuilder.Entity<Diagnostico>()
-            .HasOne(a => a.Epicrisis)
-            .WithOne(a => a.Diagnostico);
-        }
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<IdentityUser<int>>(builder =>
+            {
+                builder.ToTable("Usuarios");
+            });
+
+            modelBuilder.Entity<IdentityRole<int>>(builder =>
+            {
+                builder.ToTable("Roles");
+            });
+
+            modelBuilder.Entity<Paciente>()
+            .HasOne(a => a.HistoriaClinica)
+            .WithOne(a => a.Paciente)
+            .HasForeignKey<HistoriaClinica>(c => c.IdPaciente);
+
+            modelBuilder.Entity<Episodio>()
+            .HasOne(a => a.Epicrisis)
+            .WithOne(a => a.Episodio)
+            .HasForeignKey<Epicrisis>(c => c.IdEpisodio);
+
+            modelBuilder.Entity<Epicrisis>()
+            .HasOne(a => a.Diagnostico)
+            .WithOne(a => a.Epicrisis)
+            .HasForeignKey<Diagnostico>(c => c.IdEpicrisis);
+
+            modelBuilder.Entity<IdentityUser<int>>()
+            .HasKey(l => new { l.Id });
+        }
     }
 }
