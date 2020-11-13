@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoriasClinicas.Models
 {
-    public abstract class Persona : IdentityUser<int>
+    public class Usuario : IdentityUser<int>
     {
         public string Nombre { get; set; }
         public string Apellido { get; set; }

@@ -24,7 +24,7 @@ namespace HistoriasClinicas.Data
         public DbSet<Medico> Medicos { get; set; }
         public DbSet<Nota> Notas { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
-        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,5 +58,7 @@ namespace HistoriasClinicas.Data
             modelBuilder.Entity<IdentityUser<int>>()
             .HasKey(l => new { l.Id });
         }
+
+        public DbSet<HistoriasClinicas.Models.Rol> Rol { get; set; }
     }
 }

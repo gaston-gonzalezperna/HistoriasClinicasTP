@@ -31,7 +31,7 @@ namespace HistoriasClinicas
             services.AddDbContext<EFContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DB-CS-CURSO-E")));
 
-            services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<EFContext>();
+            services.AddIdentity<Usuario, Rol>().AddEntityFrameworkStores<EFContext>();
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
                 opciones =>
                 {

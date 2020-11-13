@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HistoriasClinicas.Models
 {
-    public class Empleado : Persona
+    public class Empleado : Usuario
     {
         public string Legajo { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace HistoriasClinicas.Models
 {
-    public class Paciente : Persona
+    public class Paciente : Usuario
     {
         public string ObraSocial { get; set; }
         public HistoriaClinica HistoriaClinica { get; set; }
