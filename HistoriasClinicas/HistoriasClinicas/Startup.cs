@@ -28,8 +28,19 @@ namespace HistoriasClinicas
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<EFContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DB-CS-CURSO-E")));
+            //services.AddDbContext<EFContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DB-CS-CURSO-E")));
+
+            if (Configuration["Contexto"] == "SQL")
+            {
+                services.AddDbContext<EFContext>(options => options
+                            .UseSqlServer(Configuration.GetConnectionString("DB-CS-CURSO-E"))
+                );
+            }
+            else
+            {
+                services.AddDbContext<EFContext>(options => options.UseInMemoryDatabase(databaseName: "DB-CS-CURSO-E-MEM"));
+            }
 
             services.AddIdentity<Usuario, Rol>().AddEntityFrameworkStores<EFContext>();
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
@@ -58,6 +69,7 @@ namespace HistoriasClinicas
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseBrowserLink();
 
             app.UseRouting();
 

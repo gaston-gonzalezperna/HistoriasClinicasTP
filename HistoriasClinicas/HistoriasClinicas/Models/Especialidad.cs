@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace HistoriasClinicas.Models
 {
-    public class Medico : Usuario
+    public enum Especialidad
     {
-        public string Matricula { get; set; }
-        public Especialidad Especialidad { get; set; }
+        Clinico,
+        Traumatologia,
+        Pediatria,
+        Dermatologia
     }
 }

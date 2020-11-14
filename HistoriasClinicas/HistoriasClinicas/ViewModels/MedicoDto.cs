@@ -1,11 +1,12 @@
-﻿using System;
+﻿using HistoriasClinicas.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HistoriasClinicas.Models
+namespace HistoriasClinicas.ViewModels
 {
-    public class Medico : Usuario
+    public class MedicoDto : BaseDto
     {
         public string Matricula { get; set; }
         public Especialidad Especialidad { get; set; }
