@@ -1,0 +1,23 @@
+﻿@model HistoriasClinicas.ViewModels.MedicoDto
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1>Registro</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegistrarAdmin">
+            <p>Administrador Registrado con exito!</p>
+        </form>
+</div>
+</div>
+
+<div>
+    <a asp-action="IniciarSesion">Volver a iniciar sesion</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
