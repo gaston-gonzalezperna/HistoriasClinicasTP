@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model HistoriasClinicas.ViewModels.LoginDto
 @{
     ViewData["Title"] = "Iniciar Sesion";
 }
@@ -15,21 +13,27 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Iniciar Sesion</h5>
                         <br />
-                        <form class="form-signin">
+                        <form asp-action="IniciarSesion" class="form-signin">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-label-group">
-                                <label for="inputEmail">Usuario</label>
-                                <input type="email" id="inputEmail" class="form-control" placeholder="" required autofocus>
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <br />
                             <div class="form-label-group">
-                                <label for="inputPassword">Contraseña</label>
-                                <input type="password" id="inputPassword" class="form-control" placeholder="" required>
+                                <label asp-for="Password" class="control-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <br />
                             <br />
                             <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Ingresar</button>
+                        </form>                            
+                        <br />
+                        <form asp-action="Registrar">
                             <button class="btn btn-lg btn-info btn-block text-uppercase" type="submit">Registrarse</button>
-                        </form>
+                        </form>                        
                     </div>
                 </div>
             </div>

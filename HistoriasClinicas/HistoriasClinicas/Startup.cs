@@ -43,6 +43,17 @@ namespace HistoriasClinicas
             }
 
             services.AddIdentity<Usuario, Rol>().AddEntityFrameworkStores<EFContext>();
+            services.Configure<IdentityOptions>(opciones =>
+            {
+                opciones.Password.RequireLowercase = false;
+                opciones.Password.RequireNonAlphanumeric = false;
+                opciones.Password.RequireUppercase = false;
+                opciones.Password.RequireDigit = false;
+                opciones.Password.RequiredLength = 6;
+
+                opciones.SignIn.RequireConfirmedEmail = false;
+                opciones.SignIn.RequireConfirmedPhoneNumber = false;
+            });
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
                 opciones =>
                 {

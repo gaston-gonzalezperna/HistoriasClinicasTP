@@ -52,7 +52,6 @@ namespace HistoriasClinicas.Controllers
                 paciente.NormalizedUserName = model.Email.ToUpper();
                 paciente.Email = model.Email;
                 paciente.NormalizedEmail = model.Email.ToUpper();
-                paciente.PasswordHash = model.Password;
 
                 var resultadoDeCreacion = await _usrmgr.CreateAsync(paciente, model.Password);
 
@@ -91,14 +90,15 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult IniciarSesion(string ReturnUrl)
         {
             TempData["returnUrl"] = ReturnUrl;
             return View();
         }
 
-        /*[HttpPost]
-        public async Task<IActionResult> IniciarSesion(LoginVM model)
+        [HttpPost]
+        public async Task<IActionResult> IniciarSesion(LoginDto model)
         {
             string returnUrl = TempData["returnUrl"] as string;
 
@@ -146,6 +146,6 @@ namespace HistoriasClinicas.Controllers
                 //No hay un usuario existente con ese email
                 return Json(true);
             }
-        }*/
+        }
     }
 }
