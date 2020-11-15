@@ -77,16 +77,90 @@ namespace HistoriasClinicas.Controllers
 
             return View(model);
         }
-
+        
+        //Solo accesible por Administrador y Empleado
         [HttpPost]
         public async Task<IActionResult> RegistrarMedico(MedicoDto model)
         {
+            if (ModelState.IsValid)
+            {
+                Medico medico = new Medico();
+                medico.Nombre = model.Nombre;
+                medico.Apellido = model.Apellido;
+                medico.Especialidad = model.Especialidad;
+                medico.DNI = model.DNI;
+                medico.Direccion = model.Direccion;
+                medico.PhoneNumber = model.Telefono;
+                medico.UserName = model.Email;
+                medico.NormalizedUserName = model.Email.ToUpper();
+                medico.Email = model.Email;
+                medico.NormalizedEmail = model.Email.ToUpper();
+
+                var resultadoDeCreacion = await _usrmgr.CreateAsync(medico, model.Password);
+
+                if (resultadoDeCreacion.Succeeded)
+                {
+                    //ok la creación pulgares arriba
+                    //Le agrego el rol
+
+                    await _usrmgr.AddToRoleAsync(medico, "Medico");
+
+                    await _signinmgr.SignInAsync(medico, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //tratamiento para los errores
+                foreach (var error in resultadoDeCreacion.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+
+            }
+
             return View(model);
         }
 
+        //Solo accesible por el administrador
         [HttpPost]
         public async Task<IActionResult> RegistrarEmpleado(EmpleadoDto model)
         {
+            if (ModelState.IsValid)
+            {
+                Empleado empleado = new Empleado();
+                empleado.Nombre = model.Nombre;
+                empleado.Apellido = model.Apellido;
+                empleado.Legajo = empleado.Id + model.DNI;
+                empleado.DNI = model.DNI;
+                empleado.Direccion = model.Direccion;
+                empleado.PhoneNumber = model.Telefono;
+                empleado.UserName = model.Email;
+                empleado.NormalizedUserName = model.Email.ToUpper();
+                empleado.Email = model.Email;
+                empleado.NormalizedEmail = model.Email.ToUpper();
+
+                var resultadoDeCreacion = await _usrmgr.CreateAsync(empleado, model.Password);
+
+                if (resultadoDeCreacion.Succeeded)
+                {
+                    //ok la creación pulgares arriba
+                    //Le agrego el rol
+
+                    await _usrmgr.AddToRoleAsync(empleado, "Empleado");
+
+                    await _signinmgr.SignInAsync(empleado, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //tratamiento para los errores
+                foreach (var error in resultadoDeCreacion.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+
+            }
+
             return View(model);
         }
 
