@@ -9,7 +9,7 @@ namespace HistoriasClinicas.ViewModels
     public class LoginDto
     {
         [Required]
-        [EmailAddress(ErrorMessage = "Ingresá un correo amigo")]
+        [EmailAddress(ErrorMessage = "Ingresá un correo valido")]
         public string Email { get; set; }
 
 

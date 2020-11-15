@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HistoriasClinicas.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly EFContext _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public UsuariosController(EFContext context)
+        public UsuariosController(EFContext context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Usuarios
