@@ -30,11 +30,6 @@ namespace HistoriasClinicas.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IdentityUser<int>>(builder =>
-            {
-                builder.ToTable("Usuarios");
-            });
-
             modelBuilder.Entity<IdentityRole<int>>(builder =>
             {
                 builder.ToTable("Roles");

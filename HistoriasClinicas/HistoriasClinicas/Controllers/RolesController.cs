@@ -7,147 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HistoriasClinicas.Controllers
 {
     public class RolesController : Controller
     {
-        private readonly EFContext _context;
+        private readonly RoleManager<Rol> _rolmgr;
 
-        public RolesController(EFContext context)
+        public RolesController(RoleManager<Rol> rolmgr)
         {
-            _context = context;
+            this._rolmgr = rolmgr;
         }
 
-        // GET: Roles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> CrearRoles()
         {
-            return View(await _context.Rol.ToListAsync());
+            Rol ir1 = new Rol() { Name = "Paciente" };
+            Rol ir2 = new Rol() { Name = "Empleado" };
+            Rol ir3 = new Rol() { Name = "Medico" };
+            Rol ir4 = new Rol() { Name = "Administrador" };
+
+            var resultado1 = await _rolmgr.CreateAsync(ir1);
+            var resultado2 = await _rolmgr.CreateAsync(ir2);
+            var resultado3 = await _rolmgr.CreateAsync(ir3);
+            var resultado4 = await _rolmgr.CreateAsync(ir4);
+
+            return RedirectToAction("Index");
         }
 
-        // GET: Roles/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Index()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rol = await _context.Rol
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (rol == null)
-            {
-                return NotFound();
-            }
-
-            return View(rol);
-        }
-
-        // GET: Roles/Create
-        public IActionResult Create()
-        {
+            ViewBag.Roles = _rolmgr.Roles.ToList();
             return View();
-        }
-
-        // POST: Roles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,NormalizedName,ConcurrencyStamp")] Rol rol)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(rol);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(rol);
-        }
-
-        // GET: Roles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rol = await _context.Rol.FindAsync(id);
-            if (rol == null)
-            {
-                return NotFound();
-            }
-            return View(rol);
-        }
-
-        // POST: Roles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,NormalizedName,ConcurrencyStamp")] Rol rol)
-        {
-            if (id != rol.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rol);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RolExists(rol.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(rol);
-        }
-
-        // GET: Roles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rol = await _context.Rol
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (rol == null)
-            {
-                return NotFound();
-            }
-
-            return View(rol);
-        }
-
-        // POST: Roles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var rol = await _context.Rol.FindAsync(id);
-            _context.Rol.Remove(rol);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool RolExists(int id)
-        {
-            return _context.Rol.Any(e => e.Id == id);
         }
     }
 }
