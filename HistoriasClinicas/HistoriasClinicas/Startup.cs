@@ -66,7 +66,7 @@ namespace HistoriasClinicas
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EFContext _EFcontext)
         {
             if (env.IsDevelopment())
             {
@@ -81,11 +81,12 @@ namespace HistoriasClinicas
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseBrowserLink();
-
+            _EFcontext.Database.EnsureCreated();
             app.UseRouting();
 
             app.UseAuthorization();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
