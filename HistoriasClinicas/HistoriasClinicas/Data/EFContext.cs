@@ -59,6 +59,6 @@ namespace HistoriasClinicas.Data
 
         }
 
-        public DbSet<HistoriasClinicas.Models.Rol> Rol { get; set; }
+        public DbSet<Rol> Roles { get; set; }
     }
 }
