@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,7 @@ namespace HistoriasClinicas
         }
 
         public IConfiguration Configuration { get; }
+        public UserManager<Usuario, string> userManager;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -82,6 +84,7 @@ namespace HistoriasClinicas
             app.UseStaticFiles();
             app.UseBrowserLink();
             _EFcontext.Database.EnsureCreated();
+            Seeder.Inicializar();
             app.UseRouting();
 
             app.UseAuthorization();
