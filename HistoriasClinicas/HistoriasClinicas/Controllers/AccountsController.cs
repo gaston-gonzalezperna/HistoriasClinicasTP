@@ -121,42 +121,6 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RegistrarAdmin()
-        {
-            if (ModelState.IsValid)
-            {
-                Usuario usuario = new Usuario();
-                usuario.Nombre = "Administrador";
-                usuario.Apellido = "Administrador";
-                usuario.UserName = "admin@madicus.com";
-                usuario.NormalizedUserName = usuario.UserName.ToUpper();
-                usuario.Email = usuario.UserName;
-                usuario.NormalizedEmail = usuario.Email.ToUpper();
-
-                var resultadoDeCreacion = await _usrmgr.CreateAsync(usuario, "administrador");
-
-                if (resultadoDeCreacion.Succeeded)
-                {
-                    //ok la creación pulgares arriba
-                    //Le agrego el rol
-
-                    await _usrmgr.AddToRoleAsync(usuario, "Administrador");
-
-                    await _signinmgr.SignInAsync(usuario, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-
-                //tratamiento para los errores
-                foreach (var error in resultadoDeCreacion.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
-
-            }
-            return View();
-        }
         //Solo accesible por el administrador
         [HttpPost]
         public async Task<IActionResult> RegistrarEmpleado(EmpleadoDto model)
