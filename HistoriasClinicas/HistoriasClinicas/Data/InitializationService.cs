@@ -18,9 +18,9 @@ namespace HistoriasClinicas.Data
             _rolmgr = rolmgr;
         }
 
-        public async Task SeedAsync()
+        public void Seed()
         {
-            iniciarRoles();
+            IniciarRoles();
 
             if (_userManager.FindByEmailAsync("admin@madicus.com").Result == null)
             {
@@ -32,21 +32,21 @@ namespace HistoriasClinicas.Data
                 usuario.Email = usuario.UserName;
                 usuario.NormalizedEmail = usuario.Email.ToUpper();
 
-                var resultadoDeCreacion = await _userManager.CreateAsync(usuario, "administrador");
+                var resultadoDeCreacion = _userManager.CreateAsync(usuario, "administrador").Result;
 
                 if (resultadoDeCreacion.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(usuario, "Administrador");
+                    _userManager.AddToRoleAsync(usuario, "Administrador").Wait();
                 }
             }
         }
 
-        private void iniciarRoles()
+        private void IniciarRoles()
         {
-            _rolmgr.CreateAsync(new Rol() { Name = "Paciente" });
-            _rolmgr.CreateAsync(new Rol() { Name = "Empleado" });
-            _rolmgr.CreateAsync(new Rol() { Name = "Medico" });
-            _rolmgr.CreateAsync(new Rol() { Name = "Administrador" });
+            _rolmgr.CreateAsync(new Rol() { Name = "Paciente" }).Wait();
+            _rolmgr.CreateAsync(new Rol() { Name = "Empleado" }).Wait();
+            _rolmgr.CreateAsync(new Rol() { Name = "Medico" }).Wait();
+            _rolmgr.CreateAsync(new Rol() { Name = "Administrador" }).Wait();
         }
     }
 }

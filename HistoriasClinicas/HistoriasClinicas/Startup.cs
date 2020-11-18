@@ -92,7 +92,7 @@ namespace HistoriasClinicas
             using (var scope = scopeFactory.CreateScope())
             {
                 var identityDbInitialize = scope.ServiceProvider.GetService<IInitializationService>();
-                identityDbInitialize.SeedAsync();
+                identityDbInitialize.Seed();
             }
 
             app.UseEndpoints(endpoints =>

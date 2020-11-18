@@ -7,6 +7,6 @@ namespace HistoriasClinicas.Data
 {
     public interface IInitializationService
     {
-        Task SeedAsync();
+        void Seed();
     }
 }
