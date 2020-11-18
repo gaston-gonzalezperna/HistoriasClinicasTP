@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,7 +23,6 @@ namespace HistoriasClinicas
         }
 
         public IConfiguration Configuration { get; }
-        public UserManager<Usuario, string> userManager;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -44,7 +42,7 @@ namespace HistoriasClinicas
                 services.AddDbContext<EFContext>(options => options.UseInMemoryDatabase(databaseName: "DB-CS-CURSO-E-MEM"));
             }
 
-            services.AddIdentity<Usuario, Rol>().AddEntityFrameworkStores<EFContext>();
+            services.AddIdentity<Usuario, Rol>().AddEntityFrameworkStores<EFContext>();            
             services.Configure<IdentityOptions>(opciones =>
             {
                 opciones.Password.RequireLowercase = false;
@@ -56,6 +54,7 @@ namespace HistoriasClinicas
                 opciones.SignIn.RequireConfirmedEmail = false;
                 opciones.SignIn.RequireConfirmedPhoneNumber = false;
             });
+            services.AddTransient<IInitializationService, InitializationService>();
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
                 opciones =>
                 {
@@ -84,12 +83,17 @@ namespace HistoriasClinicas
             app.UseStaticFiles();
             app.UseBrowserLink();
             _EFcontext.Database.EnsureCreated();
-            Seeder.Inicializar();
             app.UseRouting();
 
             app.UseAuthorization();
             app.UseAuthorization();
 
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var identityDbInitialize = scope.ServiceProvider.GetService<IInitializationService>();
+                identityDbInitialize.SeedAsync();
+            }
 
             app.UseEndpoints(endpoints =>
             {

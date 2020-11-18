@@ -36,6 +36,11 @@ namespace HistoriasClinicas.Data
                 builder.ToTable("Roles");
             });
 
+            modelBuilder.Entity<IdentityUser<int>>(builder =>
+            {
+                builder.ToTable("Usuarios");
+            });
+
             modelBuilder.Entity<Paciente>()
             .HasOne(a => a.HistoriaClinica)
             .WithOne(a => a.Paciente)
