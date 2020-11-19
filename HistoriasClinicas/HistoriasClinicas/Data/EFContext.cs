@@ -16,7 +16,7 @@ namespace HistoriasClinicas.Data
         }
 
         public DbSet<Diagnostico> Diagnosticos { get; set; }
-        public DbSet<Empleado> Empleados { get; set; }
+       public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Epicrisis> Epicrisis { get; set; }
         public DbSet<Episodio> Episodios { get; set; }
         public DbSet<Evolucion> Evoluciones { get; set; }

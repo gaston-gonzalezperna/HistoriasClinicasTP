@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmgr
+@inject HistoriasClinicas.Data.EFContext _EfContext
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,28 +23,50 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="IniciarSesion">Ingresar</a>
-                        </li>
+                        <!-->      <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="IniciarSesion">Ingresar</a>
+              </li></!-->
                     </ul>
                 </div>
+
+                @if (_signinmgr.IsSignedIn(User))
+                {
+                    var datosUsuario = _EfContext.Usuarios.Select(p => new { p.NormalizedEmail }).FirstOrDefault(u => u.NormalizedEmail == User.Identity.Name.ToUpper());
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle  btn btn-success" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name<span class="caret"></span></a>
+                        <ul class="dropdown-menu btn">
+                            <li class="dropdown-item">
+                                <a class="btn" asp-area="" asp-controller="Accounts" asp-action="SubirFoto">Historia Clinica</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="btn" asp-area="" asp-controller="Accounts" asp-action="CerrarSesion">CerrarSesion</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="btn btn-primary" asp-area="" asp-controller="Accounts" asp-action="IniciarSesion">Iniciar Sesion</a>
+                    </li>
+                }
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - HistoriasClinicas
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
-</body>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - HistoriasClinicas
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>
