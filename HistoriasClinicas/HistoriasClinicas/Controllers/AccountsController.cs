@@ -55,6 +55,12 @@ namespace HistoriasClinicas.Controllers
 
                 var resultadoDeCreacion = await _usrmgr.CreateAsync(paciente, model.Password);
 
+                var nuevaHistoriaClinica = new HistoriaClinica();
+                nuevaHistoriaClinica.IdPaciente = paciente.Id;
+                nuevaHistoriaClinica.Paciente = paciente;
+
+                _contexto.HistoriaClinicas.Add(nuevaHistoriaClinica);
+
                 if (resultadoDeCreacion.Succeeded)
                 {
                     //ok la creación pulgares arriba
@@ -71,8 +77,6 @@ namespace HistoriasClinicas.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-
-
             }
 
             return View(model);

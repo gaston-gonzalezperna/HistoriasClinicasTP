@@ -34,9 +34,7 @@ namespace HistoriasClinicas.Controllers
                 return NotFound();
             }
 
-            var historiaClinica = await _context.HistoriaClinicas
-                .Include(h => h.Paciente)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var historiaClinica = _context.HistoriaClinicas.First(h => h.IdPaciente == id);
             if (historiaClinica == null)
             {
                 return NotFound();
