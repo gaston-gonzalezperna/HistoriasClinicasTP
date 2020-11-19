@@ -1,5 +1,5 @@
-﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmgr
-@inject HistoriasClinicas.Data.EFContext _EfContext
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> signinmgr
+@inject HistoriasClinicas.Data.EFContext _contexto
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,9 +29,9 @@
                     </ul>
                 </div>
 
-                @if (_signinmgr.IsSignedIn(User))
+                @if (signinmgr.IsSignedIn(User))
                 {
-                    var datosUsuario = _EfContext.Usuarios.Select(p => new { p.NormalizedEmail }).FirstOrDefault(u => u.NormalizedEmail == User.Identity.Name.ToUpper());
+                    var datosUsuario = _contexto.Usuarios.Select(p => new { p.NormalizedEmail }).FirstOrDefault(u => u.NormalizedEmail == User.Identity.Name.ToUpper());
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle  btn btn-success" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name<span class="caret"></span></a>
                         <ul class="dropdown-menu btn">

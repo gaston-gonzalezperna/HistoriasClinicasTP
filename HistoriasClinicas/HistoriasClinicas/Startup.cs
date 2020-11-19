@@ -54,7 +54,9 @@ namespace HistoriasClinicas
                 opciones.SignIn.RequireConfirmedEmail = false;
                 opciones.SignIn.RequireConfirmedPhoneNumber = false;
             });
+
             services.AddTransient<IInitializationService, InitializationService>();
+
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
                 opciones =>
                 {
@@ -86,7 +88,7 @@ namespace HistoriasClinicas
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
