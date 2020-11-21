@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
+using HistoriasClinicas.ViewModels;
 
 namespace HistoriasClinicas.Controllers
 {
@@ -40,7 +41,17 @@ namespace HistoriasClinicas.Controllers
                 return NotFound();
             }
 
-            return View(paciente);
+            PacienteDto model = new PacienteDto();
+            model.Id = paciente.Id;
+            model.Nombre = paciente.Nombre;
+            model.Apellido = paciente.Apellido;
+            model.DNI = paciente.DNI;
+            model.Direccion = paciente.Direccion;
+            model.Telefono = paciente.PhoneNumber;
+            model.ObraSocial = paciente.ObraSocial;
+            model.Email = paciente.Email;
+
+            return View(model);
         }
 
         // GET: Pacientes/Create
@@ -78,7 +89,18 @@ namespace HistoriasClinicas.Controllers
             {
                 return NotFound();
             }
-            return View(paciente);
+
+            PacienteDto model = new PacienteDto();
+            model.Id = paciente.Id;
+            model.Nombre = paciente.Nombre;
+            model.Apellido = paciente.Apellido;
+            model.DNI = paciente.DNI;
+            model.Direccion = paciente.Direccion;
+            model.Telefono = paciente.PhoneNumber;
+            model.ObraSocial = paciente.ObraSocial;
+            model.Email = paciente.Email;
+
+            return View(model);
         }
 
         // POST: Pacientes/Edit/5
@@ -86,15 +108,24 @@ namespace HistoriasClinicas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Nombre,Apellido,DNI,Direccion,FechaAlta,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Direccion,Telefono,ObraSocial,Email")] PacienteDto model)
         {
-            if (id != paciente.Id)
+            var paciente = await _context.Pacientes.FindAsync(id);
+            if (paciente == null)
             {
                 return NotFound();
-            }
+            }            
 
             if (ModelState.IsValid)
             {
+                paciente.Direccion = model.Direccion;
+                paciente.PhoneNumber = model.Telefono;
+                paciente.ObraSocial = model.ObraSocial;
+                paciente.Email = model.Email;
+                paciente.NormalizedEmail = model.Email.ToUpper();
+                paciente.UserName = model.Email;
+                paciente.NormalizedUserName = model.Email.ToUpper();
+
                 try
                 {
                     _context.Update(paciente);
@@ -111,9 +142,10 @@ namespace HistoriasClinicas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = id });
             }
-            return View(paciente);
+
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: Pacientes/Delete/5

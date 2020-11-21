@@ -46,6 +46,7 @@ namespace HistoriasClinicas.Controllers
                 paciente.Nombre = model.Nombre;
                 paciente.Apellido = model.Apellido;
                 paciente.DNI = model.DNI;
+                paciente.FechaAlta = DateTime.Now;
                 paciente.Direccion = model.Direccion;
                 paciente.PhoneNumber = model.Telefono;
                 paciente.UserName = model.Email;
