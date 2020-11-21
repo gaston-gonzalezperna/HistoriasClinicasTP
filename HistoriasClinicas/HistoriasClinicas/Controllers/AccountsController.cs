@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
 using HistoriasClinicas.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,13 +32,25 @@ namespace HistoriasClinicas.Controllers
             this._contexto = contexto;
         }
 
-        public IActionResult Registrar()
+        public Task<IActionResult> RegistrarPaciente()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public IActionResult RegistrarEmpleado()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public IActionResult RegistrarMedico()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistrarPaciente(PacienteDto model)
+        public async Task<IActionResult> RegistroPaciente(PacienteDto model)
         {
             if (ModelState.IsValid)
             {
@@ -81,10 +94,10 @@ namespace HistoriasClinicas.Controllers
 
             return View(model);
         }
-        
+
         //Solo accesible por Administrador y Empleado
         [HttpPost]
-        public async Task<IActionResult> RegistrarMedico(MedicoDto model)
+        public async Task<IActionResult> RegistroMedico(MedicoDto model)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +105,7 @@ namespace HistoriasClinicas.Controllers
                 medico.Nombre = model.Nombre;
                 medico.Apellido = model.Apellido;
                 medico.Especialidad = model.Especialidad;
+                medico.FechaAlta = DateTime.Now;
                 medico.DNI = model.DNI;
                 medico.Direccion = model.Direccion;
                 medico.PhoneNumber = model.Telefono;
@@ -125,9 +139,10 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Administrador")]
         //Solo accesible por el administrador
         [HttpPost]
-        public async Task<IActionResult> RegistrarEmpleado(EmpleadoDto model)
+        public async Task<IActionResult> RegistroEmpleado(EmpleadoDto model)
         {
             if (ModelState.IsValid)
             {
@@ -183,6 +198,7 @@ namespace HistoriasClinicas.Controllers
 
             if (ModelState.IsValid)
             {
+
                 var resultado = await _signinmgr.PasswordSignInAsync(model.Email, model.Password, false, false);
 
                 if (resultado.Succeeded)

@@ -10,4 +10,5 @@ namespace HistoriasClinicas.Models
         public string Matricula { get; set; }
         public Especialidad Especialidad { get; set; }
     }
+
 }

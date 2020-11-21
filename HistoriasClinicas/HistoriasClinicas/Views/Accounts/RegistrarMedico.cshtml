@@ -5,11 +5,11 @@
 
 <h1>Registro</h1>
 
-<h4>Nuevo Paciente</h4>
+<h4>Nuevo Medico</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="RegistrarMedico">
+        <form asp-action="RegistroMedico">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
@@ -41,6 +41,11 @@
                 <input asp-for="Matricula" class="form-control" />
                 <span asp-validation-for="Matricula" class="text-danger"></span>
             </div>
+            <div>
+                <select asp-for="Especialidad" asp-items="Html.GetEnumSelectList<Especialidad>()">
+                    <option selected="selected" value="">Seleccionar Especialidad</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <p>Su email sera su usuario de inicio de sesion</p>
@@ -52,14 +57,9 @@
                 <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div>
-                <select asp-for="Especialidad" asp-items="Html.GetEnumSelectList<Especialidad>()">
-                    <option selected="selected" value="">Please select</option>
-                </select>
+            <div class="form-group">
+                <input type="submit" value="Registrar Medico" class="btn btn-primary" />
             </div>
-                <div class="form-group">
-                    <input type="submit" value="Registrar Medico" class="btn btn-primary" />
-                </div>
         </form>
 </div>
 </div>

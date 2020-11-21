@@ -37,6 +37,7 @@ namespace HistoriasClinicas.Data
                 if (resultadoDeCreacion.Succeeded)
                 {
                     _userManager.AddToRoleAsync(usuario, "Administrador").Wait();
+
                 }
             }
         }
