@@ -31,9 +31,11 @@
             </p>
         </div>
     }
-
+    <div>
+        @if (User.IsInRole("Empleado"))
+        {
+            <a asp-controller="Episodios" asp-action="Create" asp-route-id="@Model.Id">Nuevo Episodio</a>
+            <a asp-action="Index">Volver a la lista</a>
+        }
+    </div>
 </div>
-@*<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>*@

@@ -118,6 +118,9 @@ namespace HistoriasClinicas.Controllers
 
             if (ModelState.IsValid)
             {
+                paciente.Nombre = model.Nombre;
+                paciente.Apellido = model.Apellido;
+                paciente.DNI = model.DNI;
                 paciente.Direccion = model.Direccion;
                 paciente.PhoneNumber = model.Telefono;
                 paciente.ObraSocial = model.ObraSocial;

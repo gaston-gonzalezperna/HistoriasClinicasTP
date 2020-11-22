@@ -4,7 +4,7 @@
     ViewData["Title"] = "Perfil";
 }
 
-<h1>Tu perfil</h1>
+<h1>Perfil de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
 
 <div>
     <h4>Paciente</h4>
@@ -55,5 +55,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar datos de contacto</a>
+    @if (User.IsInRole("Empleado"))
+    {
+        <a asp-action="Index">Volver a la lista</a>
+        <br />
+    }
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar datos de contacto</a>    
 </div>

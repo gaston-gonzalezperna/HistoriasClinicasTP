@@ -4,7 +4,7 @@
     ViewData["Title"] = "Editar";
 }
 
-<h1>Editar Datos de Contacto</h1>
+<h1>Editar Perfil</h1>
 
 <h4>Paciente</h4>
 <hr />
@@ -12,21 +12,42 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" disabled class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" disabled class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DNI" class="control-label"></label>
-                <input asp-for="DNI" disabled class="form-control" />
-                <span asp-validation-for="DNI" class="text-danger"></span>
-            </div>
+            @if (User.IsInRole("Empleado"))
+            {
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Apellido" class="control-label"></label>
+                    <input asp-for="Apellido" class="form-control" />
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DNI" class="control-label"></label>
+                    <input asp-for="DNI" class="form-control" />
+                    <span asp-validation-for="DNI" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" disabled class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Apellido" class="control-label"></label>
+                    <input asp-for="Apellido" disabled class="form-control" />
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DNI" class="control-label"></label>
+                    <input asp-for="DNI" disabled class="form-control" />
+                    <span asp-validation-for="DNI" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
                 <input asp-for="Direccion" class="form-control" />
@@ -55,7 +76,14 @@
 </div>
 
 <div>
-    <a asp-action="Details">Volver al perfil</a>
+    @if (User.IsInRole("Empleado"))
+    {
+        <a asp-action="Index">Volver a la lista</a>
+    }
+    else
+    {
+        <a asp-action="Details">Volver al perfil</a>
+    }
 </div>
 
 @section Scripts {

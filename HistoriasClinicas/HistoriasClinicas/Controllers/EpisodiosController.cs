@@ -44,8 +44,9 @@ namespace HistoriasClinicas.Controllers
         }
 
         // GET: Episodios/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            ViewBag.Id = id;
             return View();
         }
 

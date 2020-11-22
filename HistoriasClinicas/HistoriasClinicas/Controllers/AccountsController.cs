@@ -31,7 +31,8 @@ namespace HistoriasClinicas.Controllers
             this._contexto = contexto;
         }
 
-        public IActionResult Registrar()
+        [HttpGet]
+        public IActionResult RegistrarPaciente()
         {
             return View();
         }
@@ -69,7 +70,11 @@ namespace HistoriasClinicas.Controllers
 
                     await _usrmgr.AddToRoleAsync(paciente, "Paciente");
 
-                    await _signinmgr.SignInAsync(paciente, isPersistent: false);
+                    if (!_signinmgr.IsSignedIn(User))
+                    {
+                        await _signinmgr.SignInAsync(paciente, isPersistent: false);
+                    }
+                    
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -82,7 +87,13 @@ namespace HistoriasClinicas.Controllers
 
             return View(model);
         }
-        
+
+        [HttpGet]
+        public IActionResult RegistrarMedico()
+        {
+            return View();
+        }
+
         //Solo accesible por Administrador y Empleado
         [HttpPost]
         public async Task<IActionResult> RegistrarMedico(MedicoDto model)
@@ -90,6 +101,8 @@ namespace HistoriasClinicas.Controllers
             if (ModelState.IsValid)
             {
                 Medico medico = new Medico();
+                medico.Matricula = model.Matricula;
+                medico.FechaAlta = DateTime.Now;
                 medico.Nombre = model.Nombre;
                 medico.Apellido = model.Apellido;
                 medico.Especialidad = model.Especialidad;
@@ -110,7 +123,11 @@ namespace HistoriasClinicas.Controllers
 
                     await _usrmgr.AddToRoleAsync(medico, "Medico");
 
-                    await _signinmgr.SignInAsync(medico, isPersistent: false);
+                    if (!_signinmgr.IsSignedIn(User))
+                    {
+                        await _signinmgr.SignInAsync(medico, isPersistent: false);
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -126,6 +143,12 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult RegistrarEmpleado()
+        {
+            return View();
+        }
+
         //Solo accesible por el administrador
         [HttpPost]
         public async Task<IActionResult> RegistrarEmpleado(EmpleadoDto model)
@@ -133,6 +156,7 @@ namespace HistoriasClinicas.Controllers
             if (ModelState.IsValid)
             {
                 Empleado empleado = new Empleado();
+                empleado.FechaAlta = DateTime.Now;
                 empleado.Nombre = model.Nombre;
                 empleado.Apellido = model.Apellido;
                 empleado.Legajo = empleado.Id + model.DNI;
@@ -153,7 +177,11 @@ namespace HistoriasClinicas.Controllers
 
                     await _usrmgr.AddToRoleAsync(empleado, "Empleado");
 
-                    await _signinmgr.SignInAsync(empleado, isPersistent: false);
+                    if (!_signinmgr.IsSignedIn(User))
+                    {
+                        await _signinmgr.SignInAsync(empleado, isPersistent: false);
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
 
