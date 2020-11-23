@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<HistoriasClinicas.Models.Episodio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Historia";
 }
 
-<h1>Index</h1>
+<h1>Historia Clinica</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nuevo Episodio</a>
 </p>
 <table class="table">
     <thead>
@@ -34,32 +34,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoAbierto)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Motivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+                </td>
+                <td>
+                    @(item.EstadoAbierto ? @Html.Display("vacio") : @Html.DisplayFor(modelItem => item.FechaYHoraAlta))
+                </td>
+                <td>
+                    @(item.EstadoAbierto ? @Html.Display("vacio") : @Html.DisplayFor(modelItem => item.FechaYHoraCierre))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoAbierto)
+                </td>
+                @if (User.IsInRole("Medico"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Ver Episodio</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
