@@ -39,7 +39,7 @@ namespace HistoriasClinicas.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.Id = id;
             return View(historiaClinica);
         }
 

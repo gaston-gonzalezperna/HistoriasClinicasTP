@@ -35,6 +35,7 @@
         @if (User.IsInRole("Empleado"))
         {
             <a asp-controller="Episodios" asp-action="Create" asp-route-id="@Model.Id">Nuevo Episodio</a>
+            <br />
             <a asp-action="Index">Volver a la lista</a>
         }
     </div>

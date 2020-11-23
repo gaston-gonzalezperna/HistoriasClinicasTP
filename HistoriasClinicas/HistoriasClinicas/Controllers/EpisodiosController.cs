@@ -55,15 +55,31 @@ namespace HistoriasClinicas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,EstadoAbierto")] Episodio episodio)
+        public async Task<IActionResult> Create(int? id, [Bind("Motivo,Descripcion")] Episodio episodio)
         {
             if (ModelState.IsValid)
             {
+                var usuario = _context.Usuarios.First(usuario => usuario.NormalizedEmail == User.Identity.Name);
+                episodio.EmpleadoRegistra = (Empleado)usuario;
+                episodio.EstadoAbierto = true;
+                episodio.Evoluciones = new List<Evolucion>();
+                episodio.FechaYHoraInicio = DateTime.Now;
+
                 _context.Add(episodio);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var hc = _context.HistoriaClinicas.Find(id);
+
+                if (hc.Episodios == null)
+                {
+                    hc.Episodios = new List<Episodio>();
+                }
+                hc.Episodios.Add(episodio);
+
+                return RedirectToAction("Details", "HistoriasClinicas", new { id = id });
             }
-            return View(episodio);
+
+            return RedirectToAction("Details", "HistoriasClinicas", new { id = id });
         }
 
         // GET: Episodios/Edit/5
