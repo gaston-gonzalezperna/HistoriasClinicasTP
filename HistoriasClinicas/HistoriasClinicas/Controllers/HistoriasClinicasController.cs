@@ -22,25 +22,24 @@ namespace HistoriasClinicas.Controllers
         // GET: HistoriasClinicas
         public async Task<IActionResult> Index()
         {
-            var eFContext = _context.HistoriaClinicas.Include(h => h.Paciente);
-            return View(await eFContext.ToListAsync());
+            return View(await _context.HistoriaClinicas.ToListAsync());
         }
 
         // GET: HistoriasClinicas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var historiaClinica = _context.HistoriaClinicas.First(h => h.IdPaciente == id);
+            var historiaClinica = await _context.HistoriaClinicas.FirstAsync(h => h.IdPaciente == Id);
             if (historiaClinica == null)
             {
                 return NotFound();
             }
 
-            return View(historiaClinica);
+            return RedirectToAction("Index","Episodios", new { Id = historiaClinica.Id });
         }
 
         // GET: HistoriasClinicas/Create

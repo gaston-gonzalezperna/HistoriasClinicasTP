@@ -22,5 +22,6 @@ namespace HistoriasClinicas.Models
         public bool EstadoAbierto { get; set; }
         public Epicrisis Epicrisis { get; set; }
         public Empleado EmpleadoRegistra { get; set; }
+        public int HistoriaClinicaId { get; set; }
     }
 }

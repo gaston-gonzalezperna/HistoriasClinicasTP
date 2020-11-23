@@ -63,7 +63,7 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-            <td>
+            @*<td>
                 @if (item.HistoriaClinica.Episodios != null)
                 {
                     bool estado = false;
@@ -90,7 +90,7 @@
                     <input type="text" value="Sin episodios" class="btn btn-warning" />
                 }
 
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>

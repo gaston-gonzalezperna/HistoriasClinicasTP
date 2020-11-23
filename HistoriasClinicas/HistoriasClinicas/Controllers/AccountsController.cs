@@ -60,7 +60,7 @@ namespace HistoriasClinicas.Controllers
                 var nuevaHistoriaClinica = new HistoriaClinica();
                 nuevaHistoriaClinica.IdPaciente = paciente.Id;
                 nuevaHistoriaClinica.Paciente = paciente;
-
+                paciente.HistoriaClinica = nuevaHistoriaClinica;
                 _contexto.HistoriaClinicas.Add(nuevaHistoriaClinica);
 
                 if (resultadoDeCreacion.Succeeded)
