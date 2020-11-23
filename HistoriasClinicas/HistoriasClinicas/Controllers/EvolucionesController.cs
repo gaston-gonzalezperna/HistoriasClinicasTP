@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas.Data;
 using HistoriasClinicas.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace HistoriasClinicas.Controllers
 {
@@ -20,9 +21,16 @@ namespace HistoriasClinicas.Controllers
         }
 
         // GET: Evoluciones
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? Id)
         {
-            return View(await _context.Evoluciones.ToListAsync());
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            if (_context.Evoluciones.Where(e => e.EpisodioId == Id).Any()) {
+                return View(_context.Evoluciones.Where(e => e.EpisodioId == Id).ToListAsync());
+            }
+            return View(null);
         }
 
         // GET: Evoluciones/Details/5

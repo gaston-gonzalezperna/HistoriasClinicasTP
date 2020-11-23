@@ -14,5 +14,6 @@ namespace HistoriasClinicas.Models
         public DateTime FechaYHora { get; set; }
         public bool EstadoAbierto { get; set; }
         public List<Nota> Notas { get; set; }
+        public int EpisodioId { get; set; }
     }
 }
