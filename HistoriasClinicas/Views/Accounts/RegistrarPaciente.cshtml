@@ -1,23 +1,16 @@
-﻿@model HistoriasClinicas2.Models.Paciente
-
+﻿@model HistoriasClinicas.ViewModels.PacienteDto
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Registro";
 }
 
-<h1>Edit</h1>
+<h1>Registro</h1>
 
-<h4>Paciente</h4>
+<h4>Nuevo Paciente</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="RegistrarPaciente">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ObraSocial" class="control-label"></label>
-                <input asp-for="ObraSocial" class="form-control" />
-                <span asp-validation-for="ObraSocial" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -39,22 +32,35 @@
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaAlta" class="control-label"></label>
-                <input asp-for="FechaAlta" class="form-control" />
-                <span asp-validation-for="FechaAlta" class="text-danger"></span>
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="hidden" asp-for="UsuarioId" />
+                <label asp-for="ObraSocial" class="control-label"></label>
+                <input asp-for="ObraSocial" class="form-control" />
+                <span asp-validation-for="ObraSocial" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Email" class="control-label"></label>
+                <p>Su email sera su usuario de inicio de sesion</p>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Registrarse" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="IniciarSesion">Volver a iniciar sesion</a>
 </div>
 
 @section Scripts {

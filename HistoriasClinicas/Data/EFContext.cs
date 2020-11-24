@@ -25,9 +25,8 @@ public class EFContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>,
         public DbSet<Nota> Notas { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
 
-  //      public DbSet<Usuario> Usuarios { get; set; }
-
-    //    public DbSet<Rol> Roles { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

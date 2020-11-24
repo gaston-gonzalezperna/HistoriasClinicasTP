@@ -65,7 +65,7 @@ namespace HistoriasClinicas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
+         //  ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
             return View(paciente);
         }
 
@@ -82,7 +82,7 @@ namespace HistoriasClinicas.Controllers
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
+            //ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
             return View(paciente);
         }
 
@@ -103,7 +103,7 @@ namespace HistoriasClinicas.Controllers
                 try
                 {
                     _context.Update(paciente);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +118,7 @@ namespace HistoriasClinicas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
+      //      ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
             return View(paciente);
         }
 

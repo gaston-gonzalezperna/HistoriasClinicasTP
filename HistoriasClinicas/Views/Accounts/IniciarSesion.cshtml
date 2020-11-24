@@ -1,0 +1,43 @@
+﻿@model HistoriasClinicas.ViewModels.LoginDto
+@{
+    ViewData["Title"] = "Iniciar Sesion";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Iniciar Sesion</h5>
+                        <br />
+                        <form asp-action="IniciarSesion" class="form-signin">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-label-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <div class="form-label-group">
+                                <label asp-for="Password" class="control-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <br />
+                            <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Ingresar</button>
+                        </form>
+                        <br />
+                        <form asp-action="RegistrarPaciente" method="get">
+                            <button class="btn btn-lg btn-info btn-block text-uppercase" type="submit">Registrarse</button>
+                            <br />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
