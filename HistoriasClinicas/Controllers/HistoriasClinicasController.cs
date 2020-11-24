@@ -42,6 +42,13 @@ namespace HistoriasClinicas.Controllers
             {
                 return NotFound();
             }
+
+            if (historiaClinica.Episodios == null)
+            {
+                historiaClinica.Episodios = new List<Episodio>();
+                return RedirectToAction("Create", "Episodios", new { @id = historiaClinica.Id });
+            }
+            
             return RedirectToAction("Index", "Episodios", new { @id = historiaClinica.Id });
         }
 

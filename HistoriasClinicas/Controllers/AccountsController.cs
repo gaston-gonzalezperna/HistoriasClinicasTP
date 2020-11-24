@@ -242,6 +242,53 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> CambiarEmail(string viejoEmail, string nuevoEmail)
+        {
+            var usuarioEncontrado = await _usrmgr.FindByEmailAsync(viejoEmail);
+
+            if (usuarioEncontrado != null)
+            {
+                usuarioEncontrado.UserName = nuevoEmail;
+                usuarioEncontrado.NormalizedUserName = nuevoEmail.ToUpper();
+                usuarioEncontrado.Email = nuevoEmail;
+                usuarioEncontrado.NormalizedEmail = nuevoEmail.ToUpper();
+
+                var resultadoDeUpdate = await _usrmgr.UpdateAsync(usuarioEncontrado);
+
+                if (resultadoDeUpdate.Succeeded)
+                {
+                    await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }                    
+                else
+                {
+                    return Json($"Usuario no actualizado");
+                }
+            }
+            
+            return Json($"Usuario no encontrado");             
+        }
+
+        public async Task<IActionResult> BorrarUsuario(string email)
+        {
+            var usuarioEncontrado = await _usrmgr.FindByEmailAsync(email);
+
+            if (usuarioEncontrado != null)
+            {
+                var resultadoDelete = await _usrmgr.DeleteAsync(usuarioEncontrado);
+
+                if (resultadoDelete.Succeeded)
+                {
+                    return RedirectToAction("Index", "Pacientes");
+                }
+                else
+                {
+                    return Json($"Usuario no eliminado");
+                }
+            }
+
+            return Json($"Usuario no eliminado");
+        }
 
         public async Task<IActionResult> CerrarSesion()
         {

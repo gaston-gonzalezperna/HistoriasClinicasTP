@@ -91,7 +91,7 @@ namespace HistoriasClinicas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,Direccion,FechaAlta,UsuarioId")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Direccion,Telefono,Email,ObraSocial,UsuarioId")] Paciente paciente)
         {
             if (id != paciente.Id)
             {
@@ -101,9 +101,14 @@ namespace HistoriasClinicas.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                 
                     _context.Update(paciente);
                     _context.SaveChanges();
+
+                    if (paciente.Email != User.Identity.Name)
+                    {
+                        return RedirectToAction("CambiarEmail", "Accounts", new { viejoEmail = User.Identity.Name, nuevoEmail = paciente.Email });
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,10 +121,10 @@ namespace HistoriasClinicas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = paciente.Id });
             }
-      //      ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
-            return View(paciente);
+            //      ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
+            return RedirectToAction("Details", new { id = paciente.Id });
         }
 
         // GET: Pacientes/Delete/5
@@ -149,7 +154,7 @@ namespace HistoriasClinicas.Controllers
             var paciente = await _context.Pacientes.FindAsync(id);
             _context.Pacientes.Remove(paciente);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("BorrarUsuario", "Accounts", new { email = paciente.Email });
         }
 
         private bool PacienteExists(int id)

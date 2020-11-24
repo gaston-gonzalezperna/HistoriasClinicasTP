@@ -1,17 +1,14 @@
 ﻿@model IEnumerable<HistoriasClinicas2.Models.Paciente>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pacientes";
 }
 
-<h1>Index</h1>
+<h1>Lista de Pacientes</h1>
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ObraSocial)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
@@ -22,10 +19,7 @@
                 @Html.DisplayNameFor(model => model.DNI)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAlta)
+                @Html.DisplayNameFor(model => model.ObraSocial)
             </th>
             <th></th>
         </tr>
@@ -33,9 +27,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ObraSocial)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
@@ -46,16 +37,23 @@
                 @Html.DisplayFor(modelItem => item.DNI)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
+                @Html.DisplayFor(modelItem => item.ObraSocial)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaAlta)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @if (User.IsInRole("Empleado"))
+            {
+                <td>
+                    <a asp-controller="HistoriasClinicas" asp-action="Details" asp-route-id="@item.Id">Historia</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                </td>
+            }
+            @if (User.IsInRole("Medico"))
+            {
+                <td>
+                    <a asp-controller="HostoriasClinicas" asp-action="Details" asp-route-id="@item.Id">Historia</a>
+                </td>
+            }
         </tr>
 }
     </tbody>

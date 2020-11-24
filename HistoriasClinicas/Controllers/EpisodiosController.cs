@@ -26,6 +26,7 @@ namespace HistoriasClinicas2.Controllers
             if (episodios.Count == 0) {
                 return View(null);
             }
+
             return View(episodios);
         }
 
@@ -49,9 +50,9 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Episodios/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id");
+            ViewBag.Id = id;
             return View();
         }
 
@@ -60,16 +61,26 @@ namespace HistoriasClinicas2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,EstadoAbierto,EmpleadoRegistra,HistoriaClinicaId")] Episodio episodio)
+        public async Task<IActionResult> Create([Bind("Motivo,Descripcion,HistoriaClinicaId")] Episodio episodio)
         {
             if (ModelState.IsValid)
             {
+                episodio.EmpleadoRegistra = User.Identity.Name;
+                episodio.EstadoAbierto = true;
+                episodio.Evoluciones = new List<Evolucion>();
+                episodio.FechaYHoraInicio = DateTime.Now;
+
                 _context.Add(episodio);
+
+                var historiaClinica = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                historiaClinica.Episodios.Add(episodio);
+                _context.Update(historiaClinica);
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new {id = episodio.HistoriaClinicaId });
             }
-            ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
-            return View(episodio);
+            //ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
+            return RedirectToAction("Index", new { id = episodio.HistoriaClinicaId });
         }
 
         // GET: Episodios/Edit/5
