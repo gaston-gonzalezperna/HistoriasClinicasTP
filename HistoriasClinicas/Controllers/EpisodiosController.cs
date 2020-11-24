@@ -20,10 +20,13 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Episodios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var eFContext = _context.Episodios.Include(e => e.HistoriaClinica);
-            return View(await eFContext.ToListAsync());
+            var episodios = await _context.Episodios.Where(e => e.HistoriaClinica.Id == id).ToListAsync();
+            if (episodios.Count == 0) {
+                return View(null);
+            }
+            return View(episodios);
         }
 
         // GET: Episodios/Details/5
@@ -116,7 +119,7 @@ namespace HistoriasClinicas2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),"Episodios", new { @id = episodio.HistoriaClinicaId });
             }
             ViewData["HistoriaClinicaId"] = new SelectList(_context.HistoriaClinicas, "Id", "Id", episodio.HistoriaClinicaId);
             return View(episodio);
