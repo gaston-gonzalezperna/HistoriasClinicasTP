@@ -1,0 +1,110 @@
+﻿@model IEnumerable<HistoriasClinicas2.Models.Episodio>
+
+@{ ViewData["Title"] = "Historia"; }
+
+<h1>Historia Clinica</h1>
+
+
+@if (User.IsInRole("Empleado"))
+{
+    if (Model != null)
+    {
+        <p>
+            <a asp-action="Create" asp-route-id="@Model.FirstOrDefault().HistoriaClinicaId">Nuevo Episodio</a>
+        </p>
+    }    
+}
+
+@if (Model != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Motivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaYHoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaYHoraAlta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaYHoraCierre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoAbierto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+            </td>
+            @if (item.EstadoAbierto)
+            {
+                <td>
+                    @Html.Display("abierto")
+                </td>
+                <td>
+                    @Html.Display("abierto")
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
+                </td>
+            }            
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoAbierto)
+            </td>
+            @if (User.IsInRole("Empleado"))
+            {
+                <td>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
+                </td>
+            }            
+        </tr>
+}
+    </tbody>
+</table> }
+else
+{
+    <br />
+    <br />
+    <div class="card bg-warning">    
+        <p class="mx-auto">
+            Usted no tiene ningun episodio registrado al dia @DateTime.Now.ToString("d/M/yyyy")
+        </p>
+    </div>
+}
+
+
+
+
