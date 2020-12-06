@@ -65,7 +65,6 @@
                                     }
                                     @if (User.IsInRole("Empleado"))
                                     {
-                                        //var empleado = _contexto.Empleados.First(empleado => empleado.Email == User.Identity.Name);
                                         <li class="dropdown-item">
                                             <a class="btn" asp-area="" asp-controller="Pacientes" asp-action="Index">Ver pacientes</a>
                                         </li>

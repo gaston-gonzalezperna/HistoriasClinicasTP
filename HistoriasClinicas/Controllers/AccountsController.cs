@@ -128,6 +128,8 @@ namespace HistoriasClinicas.Controllers
                     medico.Email = model.Email;
                     medico.UsuarioId = usuario.Id;
                     medico.Usuario = usuario;
+                    _contexto.Medicos.Add(medico);
+                    _contexto.SaveChanges();
 
                     await _usrmgr.AddToRoleAsync(usuario, "Medico");
 
@@ -184,6 +186,8 @@ namespace HistoriasClinicas.Controllers
                     empleado.Email = model.Email;
                     empleado.UsuarioId = usuario.Id;
                     empleado.Usuario = usuario;
+                    _contexto.Empleados.Add(empleado);
+                    _contexto.SaveChanges();
 
                     await _usrmgr.AddToRoleAsync(usuario, "Empleado");
 
