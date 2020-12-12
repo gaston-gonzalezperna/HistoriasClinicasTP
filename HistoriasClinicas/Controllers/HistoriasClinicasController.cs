@@ -40,11 +40,10 @@ namespace HistoriasClinicas.Controllers
 
             var episodios = _context.Episodios.Where(e => e.HistoriaClinicaId == historiaClinica.Id).ToList();
 
-            if (episodios == null)
+            if (episodios.Count() == 0)
             {
                 return View("Vacio", historiaClinica);
             }
-
             
             return RedirectToAction("Index", "Episodios", new { @id = historiaClinica.Id });
         }
