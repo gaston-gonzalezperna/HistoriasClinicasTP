@@ -102,12 +102,9 @@ namespace HistoriasClinicas.Controllers
             {
                 try
                 {
-
                     _context.Update(paciente);
                     _context.SaveChanges();
-                    return RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idPaciente = paciente.Id });
-
-
+                    return RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idUsuario = paciente.UsuarioId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {

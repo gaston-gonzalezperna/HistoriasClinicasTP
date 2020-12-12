@@ -38,9 +38,9 @@ namespace HistoriasClinicas.Controllers
             var historiaClinica = await _context.HistoriaClinicas
                 .FirstOrDefaultAsync(p => p.PacienteId == id);
 
-            
+            var episodios = _context.Episodios.Where(e => e.HistoriaClinicaId == historiaClinica.Id).ToList();
 
-            if (historiaClinica.Episodios == null)
+            if (episodios == null)
             {
                 return View("Vacio", historiaClinica);
             }

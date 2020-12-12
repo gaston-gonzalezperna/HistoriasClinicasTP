@@ -247,9 +247,9 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ActualizarEmail(string nuevoEmail, string idPaciente)
+        public async Task<IActionResult> ActualizarEmail(string nuevoEmail, string idUsuario)
         {
-            var usuarioEncontrado = await _usrmgr.FindByIdAsync(idPaciente);
+            var usuarioEncontrado = await _usrmgr.FindByIdAsync(idUsuario);
 
             if (usuarioEncontrado != null)
             {
