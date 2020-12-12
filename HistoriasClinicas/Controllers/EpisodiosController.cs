@@ -24,7 +24,12 @@ namespace HistoriasClinicas2.Controllers
         {
             var episodios = await _context.Episodios.Where(e => e.HistoriaClinica.Id == id).ToListAsync();
             if (episodios.Count == 0) {
+
                 return View(null);
+            }
+            if (User.IsInRole("Empleado"))
+            {
+                return View("IndexEmpleado",episodios);
             }
 
             return View(episodios);

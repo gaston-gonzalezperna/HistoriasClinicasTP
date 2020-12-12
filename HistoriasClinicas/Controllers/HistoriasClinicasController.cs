@@ -45,11 +45,11 @@ namespace HistoriasClinicas.Controllers
                 return View("Vacio", historiaClinica);
             }
 
-            
             return RedirectToAction("Index", "Episodios", new { @id = historiaClinica.Id });
+
         }
 
-         // GET: HistoriasClinicas/Edit/5
+        // GET: HistoriasClinicas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

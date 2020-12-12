@@ -10,7 +10,7 @@
         <p>
             <a asp-action="Create" asp-route-id="@Model.FirstOrDefault().HistoriaClinicaId">Nuevo Episodio</a>
         </p>
-    }
+    }    
 
 @if (Model != null)
 {
@@ -41,6 +41,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+            if (item.EstadoAbierto) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Motivo)
@@ -73,10 +74,13 @@
                 @Html.DisplayFor(modelItem => item.EstadoAbierto)
             </td>
             <td>
-                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
-            </td>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
         </tr>
-}
+}}
     </tbody>
 </table> }
 else
@@ -89,7 +93,3 @@ else
         </p>
     </div>
 }
-
-
-
-
