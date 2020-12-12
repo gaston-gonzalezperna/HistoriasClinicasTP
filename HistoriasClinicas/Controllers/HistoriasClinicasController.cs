@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 
-namespace HistoriasClinicas.Controllers
+namespace HistoriasClinicas2.Controllers
 {
     public class HistoriasClinicasController : Controller
     {
@@ -37,8 +37,7 @@ namespace HistoriasClinicas.Controllers
 
             var historiaClinica = await _context.HistoriaClinicas
                 .FirstOrDefaultAsync(p => p.PacienteId == id);
-
-            
+           
 
             if (historiaClinica.Episodios == null)
             {

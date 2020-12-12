@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HistoriasClinicas.Controllers
+namespace HistoriasClinicas2.Controllers
 {
     public class AccountsController : Controller
     {
@@ -69,6 +69,7 @@ namespace HistoriasClinicas.Controllers
                     var nuevaHistoriaClinica = new HistoriaClinica();
                     nuevaHistoriaClinica.PacienteId = paciente.Id;
                     nuevaHistoriaClinica.Paciente = paciente;
+                    nuevaHistoriaClinica.Episodios = new List<Episodio>();
                     _contexto.HistoriaClinicas.Add(nuevaHistoriaClinica);
                     paciente.HistoriaClinica = nuevaHistoriaClinica;
 

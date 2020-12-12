@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 
-namespace HistoriasClinicas.Controllers
+namespace HistoriasClinicas2.Controllers
 {
     public class PacientesController : Controller
     {

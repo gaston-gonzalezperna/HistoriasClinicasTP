@@ -73,9 +73,9 @@ namespace HistoriasClinicas2.Controllers
 
                 _context.Add(episodio);
 
-                //var historiaClinica = await _context.HistoriaClinicas
-                //.FirstOrDefaultAsync(m => m.Id == episodio.HistoriaClinicaId);
-                //historiaClinica.Episodios.Add(episodio);
+                var historiaClinica = await _context.HistoriaClinicas
+                .FirstOrDefaultAsync(m => m.Id == episodio.HistoriaClinicaId);
+                historiaClinica.Episodios.Add(episodio);
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", new {id = episodio.HistoriaClinicaId });
