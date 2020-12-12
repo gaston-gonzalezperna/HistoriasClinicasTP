@@ -263,8 +263,15 @@ namespace HistoriasClinicas2.Controllers
 
                 if (resultadoDeUpdate.Succeeded)
                 {
-                    await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else {
+                        return RedirectToAction("Index", "Home");
+                    }
+
                 }                    
 
             }
