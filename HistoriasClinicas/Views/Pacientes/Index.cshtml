@@ -51,7 +51,7 @@
             @if (User.IsInRole("Medico"))
             {
                 <td>
-                    <a asp-controller="HostoriasClinicas" asp-action="Details" asp-route-id="@item.Id">Historia</a>
+                    <a asp-controller="HistoriasClinicas" asp-action="Details" asp-route-id="@item.Id">Historia</a>
                 </td>
             }
         </tr>
