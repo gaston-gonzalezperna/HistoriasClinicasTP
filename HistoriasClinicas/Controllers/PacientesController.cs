@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 
-namespace HistoriasClinicas.Controllers
+namespace HistoriasClinicas2.Controllers
 {
     public class PacientesController : Controller
     {
@@ -101,14 +101,10 @@ namespace HistoriasClinicas.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                 
+                {
                     _context.Update(paciente);
                     _context.SaveChanges();
-
-                    if (paciente.Email != User.Identity.Name)
-                    {
-                        return RedirectToAction("CambiarEmail", "Accounts", new { viejoEmail = User.Identity.Name, nuevoEmail = paciente.Email });
-                    }
+                    return RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idUsuario = paciente.UsuarioId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {

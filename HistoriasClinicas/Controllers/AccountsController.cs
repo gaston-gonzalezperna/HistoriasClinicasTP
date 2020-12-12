@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HistoriasClinicas.Controllers
+namespace HistoriasClinicas2.Controllers
 {
     public class AccountsController : Controller
     {
@@ -64,13 +64,15 @@ namespace HistoriasClinicas.Controllers
                     paciente.Email = model.Email;
                     paciente.UsuarioId = usuario.Id;
                     paciente.Usuario = usuario;
+                    _contexto.Pacientes.Add(paciente);
 
                     var nuevaHistoriaClinica = new HistoriaClinica();
                     nuevaHistoriaClinica.PacienteId = paciente.Id;
                     nuevaHistoriaClinica.Paciente = paciente;
+                    nuevaHistoriaClinica.Episodios = new List<Episodio>();
                     _contexto.HistoriaClinicas.Add(nuevaHistoriaClinica);
                     paciente.HistoriaClinica = nuevaHistoriaClinica;
-                    _contexto.Pacientes.Add(paciente);
+
                     _contexto.SaveChanges();
 
 
@@ -246,9 +248,9 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> CambiarEmail(string viejoEmail, string nuevoEmail)
+        public async Task<IActionResult> ActualizarEmail(string nuevoEmail, string idUsuario)
         {
-            var usuarioEncontrado = await _usrmgr.FindByEmailAsync(viejoEmail);
+            var usuarioEncontrado = await _usrmgr.FindByIdAsync(idUsuario);
 
             if (usuarioEncontrado != null)
             {
@@ -261,13 +263,17 @@ namespace HistoriasClinicas.Controllers
 
                 if (resultadoDeUpdate.Succeeded)
                 {
-                    await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else {
+                        return RedirectToAction("Index", "Home");
+                    }
+
                 }                    
-                else
-                {
-                    return Json($"Usuario no actualizado");
-                }
+
             }
             
             return Json($"Usuario no encontrado");             

@@ -52,8 +52,9 @@ namespace HistoriasClinicas2.Controllers
         // GET: Episodios/Create
         public IActionResult Create(int? id)
         {
-            ViewBag.Id = id;
-            return View();
+            Episodio episodio = new Episodio();
+            episodio.HistoriaClinicaId = (int)id;
+            return View(episodio);
         }
 
         // POST: Episodios/Create
@@ -72,9 +73,9 @@ namespace HistoriasClinicas2.Controllers
 
                 _context.Add(episodio);
 
-                var historiaClinica = _context.HistoriaClinicas.Find(episodio.HistoriaClinicaId);
+                var historiaClinica = await _context.HistoriaClinicas
+                .FirstOrDefaultAsync(m => m.Id == episodio.HistoriaClinicaId);
                 historiaClinica.Episodios.Add(episodio);
-                _context.Update(historiaClinica);
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", new {id = episodio.HistoriaClinicaId });

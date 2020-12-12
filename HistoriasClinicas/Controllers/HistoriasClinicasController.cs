@@ -36,18 +36,15 @@ namespace HistoriasClinicas.Controllers
             }
 
             var historiaClinica = await _context.HistoriaClinicas
-                .Include(h => h.Paciente)
-                .FirstOrDefaultAsync(m => m.PacienteId == id);
-            if (historiaClinica == null)
+                .FirstOrDefaultAsync(p => p.PacienteId == id);
+
+            var episodios = _context.Episodios.Where(e => e.HistoriaClinicaId == historiaClinica.Id).ToList();
+
+            if (episodios.Count == 0)
             {
-                return NotFound();
+                return View("Vacio", historiaClinica);
             }
 
-            if (historiaClinica.Episodios == null)
-            {
-                historiaClinica.Episodios = new List<Episodio>();
-                return RedirectToAction("Create", "Episodios", new { @id = historiaClinica.Id });
-            }
             
             return RedirectToAction("Index", "Episodios", new { @id = historiaClinica.Id });
         }
