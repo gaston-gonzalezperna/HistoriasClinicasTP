@@ -101,11 +101,13 @@ namespace HistoriasClinicas.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                 
+                {
+
                     _context.Update(paciente);
                     _context.SaveChanges();
+                    return RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idPaciente = paciente.Id });
 
-                    RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idPaciente = paciente.Id });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

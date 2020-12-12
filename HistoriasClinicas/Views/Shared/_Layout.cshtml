@@ -39,7 +39,7 @@
                                 <ul class="dropdown-menu btn">
                                     @if (User.IsInRole("Administrador"))
                                     {
-                                        var usuario = _contexto.Usuarios.First(usuario => usuario.NormalizedEmail == User.Identity.Name);
+                                        //var usuario = _contexto.Usuarios.First(usuario => usuario.NormalizedEmail == User.Identity.Name);
                                         <li class="dropdown-item">
                                             <a class="btn" asp-area="" asp-controller="Accounts" asp-action="RegistrarPaciente" method="get">Registrar Paciente</a>
                                         </li>
