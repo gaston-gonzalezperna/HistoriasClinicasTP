@@ -7,7 +7,7 @@
 @if (User.IsInRole("Medico"))
 {
 <p>
-    <a asp-action="Create">Añadir evolucion</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.IdEpisodio">Añadir Evolucion</a>
 </p>}
 
 <table class="table">
@@ -48,6 +48,6 @@
 }
     </tbody>
 </table>
-@*<div>
+<div>
     <a asp-controller="Episodios" asp-action="Index" asp-route-id="@ViewBag.Id">Volver al episodio</a>
-</div>*@
+</div>

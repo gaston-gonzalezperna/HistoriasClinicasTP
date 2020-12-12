@@ -20,9 +20,13 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Evoluciones
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var eFContext = _context.Evoluciones.Include(e => e.Episodio);
+            var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id);
+            var episodio = _context.Episodios.Where(e => e.Id == id).FirstOrDefault();
+            var idHistoria = episodio.HistoriaClinicaId;
+            ViewBag.Id = idHistoria;
+            ViewBag.IdEpisodio = episodio.Id;
             return View(await eFContext.ToListAsync());
         }
 
@@ -46,9 +50,9 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Evoluciones/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id");
+            ViewBag.Id = id;
             return View();
         }
 
@@ -57,15 +61,19 @@ namespace HistoriasClinicas2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Medico,DescripcionAtencion,FechaYHora,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        public async Task<IActionResult> Create(int? id, [Bind("DescripcionAtenciond")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
+                evolucion.Medico = User.Identity.Name;
+                evolucion.FechaYHora = DateTime.Now;
+                evolucion.EstadoAbierto = true;
+                evolucion.EpisodioId = (int)id;
+
                 _context.Add(evolucion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
             return View(evolucion);
         }
 
