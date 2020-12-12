@@ -49,9 +49,6 @@
                                         <li class="dropdown-item">
                                             <a class="btn" asp-area="" asp-controller="Accounts" asp-action="RegistrarEmpleado" method="get">Registrar Empleado</a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a class="btn" asp-area="" asp-controller="HistoriasClinicas" asp-action="Details" asp-route-id="@usuario.Id">Historia Clinica</a>
-                                        </li>
                                     }
                                     @if (User.IsInRole("Paciente"))
                                     {

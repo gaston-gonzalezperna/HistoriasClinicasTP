@@ -105,10 +105,7 @@ namespace HistoriasClinicas.Controllers
                     _context.Update(paciente);
                     _context.SaveChanges();
 
-                    if (paciente.Email != User.Identity.Name)
-                    {
-                        return RedirectToAction("CambiarEmail", "Accounts", new { viejoEmail = User.Identity.Name, nuevoEmail = paciente.Email });
-                    }
+                    RedirectToAction("ActualizarEmail", "Accounts", new { nuevoEmail = paciente.Email, idPaciente = paciente.Id });
                 }
                 catch (DbUpdateConcurrencyException)
                 {

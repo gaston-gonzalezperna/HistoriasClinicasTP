@@ -64,13 +64,14 @@ namespace HistoriasClinicas.Controllers
                     paciente.Email = model.Email;
                     paciente.UsuarioId = usuario.Id;
                     paciente.Usuario = usuario;
+                    _contexto.Pacientes.Add(paciente);
 
                     var nuevaHistoriaClinica = new HistoriaClinica();
                     nuevaHistoriaClinica.PacienteId = paciente.Id;
                     nuevaHistoriaClinica.Paciente = paciente;
                     _contexto.HistoriaClinicas.Add(nuevaHistoriaClinica);
                     paciente.HistoriaClinica = nuevaHistoriaClinica;
-                    _contexto.Pacientes.Add(paciente);
+
                     _contexto.SaveChanges();
 
 
@@ -246,9 +247,9 @@ namespace HistoriasClinicas.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> CambiarEmail(string viejoEmail, string nuevoEmail)
+        public async Task<IActionResult> ActualizarEmail(string nuevoEmail, string idPaciente)
         {
-            var usuarioEncontrado = await _usrmgr.FindByEmailAsync(viejoEmail);
+            var usuarioEncontrado = await _usrmgr.FindByIdAsync(idPaciente);
 
             if (usuarioEncontrado != null)
             {
@@ -264,10 +265,7 @@ namespace HistoriasClinicas.Controllers
                     await _signinmgr.SignInAsync(usuarioEncontrado, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }                    
-                else
-                {
-                    return Json($"Usuario no actualizado");
-                }
+
             }
             
             return Json($"Usuario no encontrado");             
