@@ -44,8 +44,7 @@
                 <td>
                     <a asp-controller="HistoriasClinicas" asp-action="Details" asp-route-id="@item.Id">Historia</a> |
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Ver</a>
                 </td>
             }
             @if (User.IsInRole("Medico"))

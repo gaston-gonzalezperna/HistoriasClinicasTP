@@ -16,7 +16,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Historias Clinicas</a>
+                <a class="navbar-brand" 
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/Logo.jpg" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -31,9 +32,9 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        @if (signinmgr.IsSignedIn(User)) 
+                        @if (signinmgr.IsSignedIn(User))
                         {
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle  btn btn-success" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name<span class="caret"></span></a>
                                 <ul class="dropdown-menu btn">

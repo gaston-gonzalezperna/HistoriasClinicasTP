@@ -31,6 +31,10 @@ namespace HistoriasClinicas2.Controllers
             {
                 return View("IndexEmpleado",episodios);
             }
+            if (User.IsInRole("Medico"))
+            {
+                return View("IndexMedico", episodios);
+            }
 
             return View(episodios);
         }
@@ -158,18 +162,47 @@ namespace HistoriasClinicas2.Controllers
                 return NotFound();
             }
 
-            return View(episodio);
+            var EvolucionesEpisodio = await _context.Evoluciones.Where(e => e.EpisodioId == id).ToListAsync();
+            var EstadoEvoluciones = EvolucionesEpisodio.Where(e => e.EstadoAbierto == true).FirstOrDefault();
+            if ((EstadoEvoluciones == null || EvolucionesEpisodio.Count == 0) && User.IsInRole("Medico"))
+            {   
+                ViewBag.IdEpisodio = episodio.Id;
+                return View(episodio);
+            }
+
+            if (EvolucionesEpisodio.Count == 0  && User.IsInRole("Empleado"))
+            {
+                ViewBag.IdEpisodio = episodio.Id;
+                return View(episodio);
+            }
+
+            return View();
         }
 
         // POST: Episodios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, [Bind("FechaYHoraAlta")] Episodio episodio )
         {
-            var episodio = await _context.Episodios.FindAsync(id);
-            _context.Episodios.Remove(episodio);
+            var episodioToClose = await _context.Episodios.FindAsync(id);
+            episodioToClose.FechaYHoraAlta = episodio.FechaYHoraAlta;
+            episodioToClose.EstadoAbierto = false;
+            
+            
+
+            Epicrisis epicrisis = new Epicrisis();
+            epicrisis.FechaYHora = DateTime.Now;
+            epicrisis.EpisodioId = id;
+            epicrisis.NombreMedico = User.Identity.Name;
+            epicrisis.Episodio = episodioToClose;
+            episodioToClose.Epicrisis = epicrisis;
+
+            _context.Episodios.Update(episodioToClose);
+            _context.Epicrisis.Add(epicrisis);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+
+            return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
         }
 
         private bool EpisodioExists(int id)

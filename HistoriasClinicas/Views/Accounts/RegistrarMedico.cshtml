@@ -26,6 +26,13 @@
                 <input asp-for="DNI" class="form-control" />
                 <span asp-validation-for="DNI" class="text-danger"></span>
             </div>
+            <div>
+                <label asp-for="Especialidad" class="control-label"></label>
+                <select asp-for="Especialidad" asp-items="Html.GetEnumSelectList<Especialidad>()" class="form-control">
+                    <!-- <option selected="selected" value="">Please select</option>-->
+                </select>
+            </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
                 <input asp-for="Direccion" class="form-control" />
@@ -52,14 +59,10 @@
                 <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div>
-                <select asp-for="Especialidad" asp-items="Html.GetEnumSelectList<Especialidad>()">
-                    <option selected="selected" value="">Please select</option>
-                </select>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Registrar Medico" class="btn btn-primary" />
             </div>
-                <div class="form-group">
-                    <input type="submit" value="Registrar Medico" class="btn btn-primary" />
-                </div>
         </form>
 </div>
 </div>
