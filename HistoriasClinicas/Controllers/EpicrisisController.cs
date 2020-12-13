@@ -46,9 +46,9 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Epicrisis/Create
-        public IActionResult Create()
+        public IActionResult Create(int? idEpi)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id");
+            ViewBag.EpisodioId = idEpi;
             return View();
         }
 
@@ -57,13 +57,25 @@ namespace HistoriasClinicas2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NombreMedico,FechaYHora,EpisodioId")] Epicrisis epicrisis)
+        public async Task<IActionResult> Create([Bind("NombreMedico,EpisodioId")] Epicrisis epicrisis)
         {
+
             if (ModelState.IsValid)
             {
+                epicrisis.FechaYHora = DateTime.Now;
+
+                var Episodio = await _context.Episodios
+                .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
+                Episodio.Epicrisis = epicrisis;
+
+                Episodio.EstadoAbierto = false;
+                epicrisis.Episodio = Episodio;
+
+                _context.Update(Episodio);
                 _context.Add(epicrisis);
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "Diagnostico", new { id = epicrisis.Id });
             }
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
             return View(epicrisis);

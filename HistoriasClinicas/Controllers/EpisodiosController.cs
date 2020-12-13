@@ -153,18 +153,28 @@ namespace HistoriasClinicas2.Controllers
                 return NotFound();
             }
 
-            return View(episodio);
+            var EvolucionesEpisodio = await _context.Evoluciones.Where(e => e.EpisodioId == id).ToListAsync();
+            var EstadoEvoluciones = EvolucionesEpisodio.Where(e => e.EstadoAbierto == true).FirstOrDefault();
+            if (EvolucionesEpisodio.Count == 0 || EstadoEvoluciones == null)
+            {
+                ViewBag.IdEpisodio = episodio.Id;
+                return View(episodio);
+            }
+
+            return View();
         }
 
         // POST: Episodios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, [Bind("FechaYHoraAlta")] Episodio episodio )
         {
-            var episodio = await _context.Episodios.FindAsync(id);
-            _context.Episodios.Remove(episodio);
+            var episodioToClose = await _context.Episodios.FindAsync(id);
+            episodioToClose.FechaYHoraAlta = episodio.FechaYHoraAlta;
+            _context.Episodios.Update(episodioToClose);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Create", "Epicrisis", new { @idEpi = id });
         }
 
         private bool EpisodioExists(int id)
