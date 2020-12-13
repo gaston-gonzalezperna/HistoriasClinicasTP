@@ -4,7 +4,7 @@
 
 <h1>Evoluciones</h1>
 
-@if (User.IsInRole("Medico"))
+@if (User.IsInRole("Medico") && ViewBag.EstadoAbierto) 
 {
 <p>
     <a asp-action="Create" asp-route-id="@ViewBag.IdEpisodio">Añadir Evolucion</a>

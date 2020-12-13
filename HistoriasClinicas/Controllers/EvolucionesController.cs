@@ -27,6 +27,7 @@ namespace HistoriasClinicas2.Controllers
             var idHistoria = episodio.HistoriaClinicaId;
             ViewBag.Id = idHistoria;
             ViewBag.IdEpisodio = episodio.Id;
+            ViewBag.EstadoAbierto = episodio.EstadoAbierto;
             return View(await eFContext.ToListAsync());
         }
 
@@ -61,7 +62,7 @@ namespace HistoriasClinicas2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("DescripcionAtenciond")] Evolucion evolucion)
+        public async Task<IActionResult> Create(int? id, [Bind("DescripcionAtencion")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
