@@ -18,13 +18,22 @@
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Recomendacion" class="control-label"></label>
-                <input asp-for="Recomendacion" class="form-control" />
-                <span asp-validation-for="Recomendacion" class="text-danger"></span>
+                @if (User.IsInRole("Empleado"))
+                {
+                    <label asp-for="Recomendacion" class="control-label"></label>
+                    <input asp-for="Recomendacion" class="form-control" value="CIERRE ADMINISTRATIVO" readonly />
+                    <span asp-validation-for="Recomendacion" class="text-danger"></span>
+                }
+                else
+                {
+                    <label asp-for="Recomendacion" class="control-label"></label>
+                    <input asp-for="Recomendacion" class="form-control" />
+                    <span asp-validation-for="Recomendacion" class="text-danger"></span>
+                }
+
             </div>
             <div class="form-group">
-                <label asp-for="EpicrisisId" class="control-label"></label>
-                <input asp-for="EpicrisisId" class ="form-control" value="@ViewBag.EpicrisisId" readonly>
+                <input asp-for="EpicrisisId" class ="form-control" value="@ViewBag.EpicrisisId" type="hidden">
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

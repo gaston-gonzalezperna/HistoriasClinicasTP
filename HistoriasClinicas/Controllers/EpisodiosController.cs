@@ -155,7 +155,13 @@ namespace HistoriasClinicas2.Controllers
 
             var EvolucionesEpisodio = await _context.Evoluciones.Where(e => e.EpisodioId == id).ToListAsync();
             var EstadoEvoluciones = EvolucionesEpisodio.Where(e => e.EstadoAbierto == true).FirstOrDefault();
-            if (EvolucionesEpisodio.Count == 0 || EstadoEvoluciones == null)
+            if ((EstadoEvoluciones == null || EvolucionesEpisodio.Count == 0) && User.IsInRole("Medico"))
+            {   
+                ViewBag.IdEpisodio = episodio.Id;
+                return View(episodio);
+            }
+
+            if (EvolucionesEpisodio.Count == 0  && User.IsInRole("Empleado"))
             {
                 ViewBag.IdEpisodio = episodio.Id;
                 return View(episodio);
@@ -171,10 +177,23 @@ namespace HistoriasClinicas2.Controllers
         {
             var episodioToClose = await _context.Episodios.FindAsync(id);
             episodioToClose.FechaYHoraAlta = episodio.FechaYHoraAlta;
+            episodioToClose.EstadoAbierto = false;
+            
+            
+
+            Epicrisis epicrisis = new Epicrisis();
+            epicrisis.FechaYHora = DateTime.Now;
+            epicrisis.EpisodioId = id;
+            epicrisis.NombreMedico = User.Identity.Name;
+            epicrisis.Episodio = episodioToClose;
+            episodioToClose.Epicrisis = epicrisis;
+
             _context.Episodios.Update(episodioToClose);
+            _context.Epicrisis.Add(epicrisis);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Create", "Epicrisis", new { @idEpi = id });
+
+            return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
         }
 
         private bool EpisodioExists(int id)

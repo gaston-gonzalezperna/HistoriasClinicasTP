@@ -66,6 +66,11 @@ namespace HistoriasClinicas2.Controllers
 
                 diagnostico.Epicrisis = epicrisis;
 
+                if (User.IsInRole("Empleado"))
+                {
+                    diagnostico.Recomendacion = "CIERRE ADMINISTRATIVO";
+                }
+
                 var episodio = await _context.Episodios
                 .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
 
