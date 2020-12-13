@@ -20,11 +20,11 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Evoluciones
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? id) //a veces le pasa episodio y a veces evolucion?
         {
-            var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id);
-            var episodio = _context.Episodios.Where(e => e.Id == id).FirstOrDefault();
-            var idHistoria = episodio.HistoriaClinicaId;
+            var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id); //trae las evoluciones de ese episodio
+            var episodio = _context.Episodios.Where(e => e.Id == id).FirstOrDefault(); //trae el episodio de ese id
+            var idHistoria = episodio.HistoriaClinicaId; //busca la HC de ese episodio
             ViewBag.Id = idHistoria;
             ViewBag.IdEpisodio = episodio.Id;
             ViewBag.EstadoAbierto = episodio.EstadoAbierto;

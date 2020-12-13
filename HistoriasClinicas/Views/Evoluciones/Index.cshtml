@@ -23,6 +23,9 @@
                 @Html.DisplayNameFor(model => model.DescripcionAtencion)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FechaYHoraCierre)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.EstadoAbierto)
             </th>
             <th></th>
@@ -40,6 +43,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DescripcionAtencion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoAbierto)

@@ -20,9 +20,14 @@ namespace HistoriasClinicas.Controllers
         }
 
         // GET: Notas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var eFContext = _context.Notas.Include(n => n.Evolucion);
+            var eFContext = _context.Notas.Where(n => n.EvolucionId == id);
+            var evolucion = await _context.Evoluciones.FindAsync(id);
+            var idEpi = evolucion.EpisodioId;
+
+            ViewBag.IdEvol = id;
+            ViewBag.IdEpi = idEpi;
             return View(await eFContext.ToListAsync());
         }
 
@@ -46,9 +51,9 @@ namespace HistoriasClinicas.Controllers
         }
 
         // GET: Notas/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id");
+            ViewBag.Id = id;
             return View();
         }
 
@@ -57,13 +62,26 @@ namespace HistoriasClinicas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Mensaje,FechaYHora,NombreAutor,EvolucionId")] Nota nota)
+        public async Task<IActionResult> Create(int? id, [Bind("Mensaje")] Nota nota)
         {
             if (ModelState.IsValid)
             {
+                nota.NombreAutor = User.Identity.Name;
+                nota.FechaYHora = DateTime.Now;
+                nota.EvolucionId = (int)id;
+
+                var evolucion = await _context.Evoluciones.FindAsync(id);
+                nota.Evolucion = evolucion;
+
+                if (evolucion.Notas == null)
+                {
+                    evolucion.Notas = new List<Nota>();
+                }
+                evolucion.Notas.Add(nota);
+
                 _context.Add(nota);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id });
             }
             ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id", nota.EvolucionId);
             return View(nota);
@@ -82,7 +100,7 @@ namespace HistoriasClinicas.Controllers
             {
                 return NotFound();
             }
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id", nota.EvolucionId);
+            ViewBag.Id = nota.EvolucionId;
             return View(nota);
         }
 
@@ -102,7 +120,10 @@ namespace HistoriasClinicas.Controllers
             {
                 try
                 {
-                    _context.Update(nota);
+                    var n = await _context.Notas.FindAsync(id);
+                    n.Mensaje = nota.Mensaje;
+
+                    _context.Update(n);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -116,7 +137,7 @@ namespace HistoriasClinicas.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id });
             }
             ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id", nota.EvolucionId);
             return View(nota);
