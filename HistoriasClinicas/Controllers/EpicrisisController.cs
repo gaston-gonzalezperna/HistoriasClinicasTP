@@ -46,28 +46,41 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Epicrisis/Create
-        public IActionResult Create()
+        public IActionResult Create(int? idEpi)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id");
+            ViewBag.EpisodioId = idEpi;
             return View();
         }
 
         // POST: Epicrisis/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NombreMedico,FechaYHora,EpisodioId")] Epicrisis epicrisis)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(epicrisis);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
-            return View(epicrisis);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("NombreMedico,EpisodioId")] Epicrisis epicrisis)
+        //{
+
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    epicrisis.FechaYHora = DateTime.Now;
+
+        //    //    var Episodio = await _context.Episodios
+        //    //    .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
+        //    //    Episodio.EstadoAbierto = false;
+
+        //    //    epicrisis.Episodio = Episodio;
+
+        //    //    _context.Add(epicrisis);              
+        //    //    _context.Update(Episodio);
+                
+        //    //    await _context.SaveChangesAsync();
+
+
+        //    //    return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
+        //    //}
+        //    //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
+        //    //return View(epicrisis);
+        //}
 
         // GET: Epicrisis/Edit/5
         public async Task<IActionResult> Edit(int? id)
