@@ -1,38 +1,37 @@
 ﻿@model IEnumerable<HistoriasClinicas2.Models.Evolucion>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Evoluciones"; }
 
-<h1>Index</h1>
+<h1>Evoluciones</h1>
 
+@if (User.IsInRole("Medico") && ViewBag.EstadoAbierto) 
+{
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <a asp-action="Create" asp-route-id="@ViewBag.IdEpisodio">Añadir Evolucion</a>
+</p>}
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaYHora)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Medico)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DescripcionAtencion)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaYHora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoAbierto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Episodio)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaYHora)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Medico)
             </td>
@@ -40,16 +39,7 @@
                 @Html.DisplayFor(modelItem => item.DescripcionAtencion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaYHora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoAbierto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Episodio.Id)
-            </td>
-            <td>
-                <a asp-controller = "Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a> |
+                <a asp-controller="Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -58,3 +48,6 @@
 }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Episodios" asp-action="Index" asp-route-id="@ViewBag.Id">Volver al episodio</a>
+</div>
