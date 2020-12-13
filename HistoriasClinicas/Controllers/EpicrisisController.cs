@@ -66,16 +66,17 @@ namespace HistoriasClinicas2.Controllers
 
                 var Episodio = await _context.Episodios
                 .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
-                Episodio.Epicrisis = epicrisis;
-
                 Episodio.EstadoAbierto = false;
+
                 epicrisis.Episodio = Episodio;
 
+                _context.Add(epicrisis);              
                 _context.Update(Episodio);
-                _context.Add(epicrisis);
-
+                
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Create", "Diagnostico", new { id = epicrisis.Id });
+
+
+                return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
             }
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
             return View(epicrisis);
