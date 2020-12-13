@@ -22,6 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.DescripcionAtencion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoAbierto)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -39,15 +42,35 @@
                 @Html.DisplayFor(modelItem => item.DescripcionAtencion)
             </td>
             <td>
-                <a asp-controller="Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.EstadoAbierto)
             </td>
+            @if (User.IsInRole("Medico"))
+            {
+                if (item.EstadoAbierto)
+                {
+                    <td>
+                        <a asp-controller="Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Cerrar</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-controller="Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a>
+                    </td>
+                }
+            }
+            else if (User.IsInRole("Empleado"))
+            {
+                <td>
+                    <a asp-controller="Notas" asp-action="Index" asp-route-id="@item.Id">Ver Notas</a>
+                </td>
+            }
         </tr>
 }
     </tbody>
 </table>
 <div>
-    <a asp-controller="Episodios" asp-action="Index" asp-route-id="@ViewBag.Id">Volver al episodio</a>
+    <a asp-controller="Episodios" asp-action="Index" asp-route-id="@ViewBag.Id">Volver a Episodios</a>
 </div>

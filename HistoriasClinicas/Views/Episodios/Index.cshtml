@@ -75,35 +75,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EstadoAbierto)
             </td>
-            @if (User.IsInRole("Empleado"))
+            @if (User.IsInRole("Paciente"))
             {
                 <td>
-                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Evoluciones</a>
                 </td>
             }
             else
             {
                 <td>
-                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Evoluciones</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Cerrar</a>
                 </td>
             }            
         </tr>
 }
     </tbody>
 </table> }
-else
-{
-    <br />
-    <br />
-    <div class="card bg-warning">    
-        <p class="mx-auto">
-            Usted no tiene ningun episodio registrado al dia @DateTime.Now.ToString("d/M/yyyy")
-        </p>
-    </div>
-}
 
 <div>
     <a asp-controller="Pacientes" asp-action="Index">Volver</a>
