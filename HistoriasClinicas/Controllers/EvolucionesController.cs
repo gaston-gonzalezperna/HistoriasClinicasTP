@@ -71,9 +71,19 @@ namespace HistoriasClinicas2.Controllers
                 evolucion.EstadoAbierto = true;
                 evolucion.EpisodioId = (int)id;
 
+                Episodio e = _context.Episodios.Where(e => e.Id == id).FirstOrDefault();
+                evolucion.Episodio = e;
+                evolucion.Notas = new List<Nota>();
+
+                if (e.Evoluciones == null)
+                {
+                    e.Evoluciones = new List<Evolucion>();
+                }
+                e.Evoluciones.Add(evolucion);
+
                 _context.Add(evolucion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { id = id });
+                return RedirectToAction("Index", new { id });
             }
             return View(evolucion);
         }
@@ -100,7 +110,7 @@ namespace HistoriasClinicas2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Medico,DescripcionAtencion,FechaYHora,EstadoAbierto,EpisodioId")] Evolucion evolucion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, DescripcionAtencion")] Evolucion evolucion)
         {
             if (id != evolucion.Id)
             {
@@ -111,7 +121,10 @@ namespace HistoriasClinicas2.Controllers
             {
                 try
                 {
-                    _context.Update(evolucion);
+                    var e = await _context.Evoluciones.FindAsync(id);
+                    e.DescripcionAtencion = evolucion.DescripcionAtencion;
+
+                    _context.Update(e);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,7 +138,7 @@ namespace HistoriasClinicas2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id });
             }
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
             return View(evolucion);
@@ -156,9 +169,13 @@ namespace HistoriasClinicas2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var evolucion = await _context.Evoluciones.FindAsync(id);
-            _context.Evoluciones.Remove(evolucion);
+            evolucion.EstadoAbierto = false;
+            evolucion.FechaYHoraAlta = DateTime.Now;
+            evolucion.FechaYHoraCierre = DateTime.Now;
+
+            _context.Evoluciones.Update(evolucion);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { id = evolucion.EpisodioId});
         }
 
         private bool EvolucionExists(int id)

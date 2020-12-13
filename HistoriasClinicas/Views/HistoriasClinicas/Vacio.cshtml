@@ -1,8 +1,28 @@
 ﻿@model HistoriasClinicas2.Models.HistoriaClinica
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Historia";
 }
 
-<h1 class="bg-warning">Su Historia Clinica se encuentra vacia al @DateTime.Now</h1>
-<a asp-action="Create" asp-controller="Episodios" asp-route-id="@Model.Id">Añadir Episodios</a>
+@if (User.IsInRole("Paciente"))
+{
+    <h1 class="bg-warning">Su Historia Clinica se encuentra vacia al @DateTime.Now</h1>
+}
+else if (User.IsInRole("Empleado"))
+{
+    <h1 class="bg-warning">Sin episodios</h1>
+    <a asp-action="Create" asp-controller="Episodios" asp-route-id="@Model.Id">Añadir Episodios</a>
+    <br />
+    <div>
+        <a asp-controller="Pacientes" asp-action="Index">Volver</a>
+    </div>
+}
+else
+{
+    <h1 class="bg-warning">Sin episodios</h1>
+    <br />
+    <div>
+        <a asp-controller="Pacientes" asp-action="Index">Volver</a>
+    </div>
+}
+

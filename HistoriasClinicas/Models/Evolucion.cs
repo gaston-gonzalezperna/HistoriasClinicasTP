@@ -14,6 +14,8 @@ namespace HistoriasClinicas2.Models
         public string Medico { get; set; }
         public string DescripcionAtencion { get; set; }
         public DateTime FechaYHora { get; set; }
+        public DateTime FechaYHoraAlta { get; set; }
+        public DateTime FechaYHoraCierre { get; set; }
         public bool EstadoAbierto { get; set; }
         public List<Nota> Notas { get; set; }
         public int EpisodioId { get; set; }
