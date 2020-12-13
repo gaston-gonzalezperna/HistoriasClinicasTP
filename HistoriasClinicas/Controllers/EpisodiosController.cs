@@ -31,6 +31,10 @@ namespace HistoriasClinicas2.Controllers
             {
                 return View("IndexEmpleado",episodios);
             }
+            if (User.IsInRole("Medico"))
+            {
+                return View("IndexMedico", episodios);
+            }
 
             return View(episodios);
         }

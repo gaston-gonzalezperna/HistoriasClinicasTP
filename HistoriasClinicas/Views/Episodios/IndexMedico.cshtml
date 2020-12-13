@@ -66,9 +66,14 @@
                 @Html.DisplayFor(modelItem => item.EstadoAbierto)
             </td>
             <td>
-                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
-            </td>
-        </tr>
+                <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
+                @if (User.IsInRole("Medico") && item.EstadoAbierto)
+                {
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Cerrar</a>
+                </td>
+            }
+            </tr>
 }
     </tbody>
 </table> }
