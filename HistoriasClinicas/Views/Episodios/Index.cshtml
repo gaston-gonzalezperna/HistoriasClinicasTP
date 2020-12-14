@@ -7,85 +7,93 @@
 
 @if (Model != null)
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Motivo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaYHoraInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaYHoraAlta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaYHoraCierre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoAbierto)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
-            </td>
-            @if (item.EstadoAbierto)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Motivo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaYHoraInicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaYHoraAlta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaYHoraCierre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EstadoAbierto)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
-                <td>
-                    @Html.Display("abierto")
-                </td>
-                <td>
-                    @Html.Display("abierto")
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Motivo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+                    </td>
+                    @if (item.EstadoAbierto)
+                    {
+                        <td>
+                            @Html.Display("abierto")
+                        </td>
+                        <td>
+                            @Html.Display("abierto")
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoAbierto)
+                    </td>
+                    <td>
+                        <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoAbierto)
-            </td>
-            <td>
-                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table> }
+        </tbody>
+    </table> }
 else
 {
     <br />
     <br />
-    <div class="card bg-warning">    
+    <div class="card bg-warning">
         <p class="mx-auto">
             Usted no tiene ningun episodio registrado al dia @DateTime.Now.ToString("d/M/yyyy")
         </p>
     </div>
 }
 
-<div>
-    <a asp-controller="Pacientes" asp-action="Index">Volver</a>
-</div>
+@if (!User.IsInRole("Paciente"))
+{
+    <div>
+        <a asp-controller="Pacientes" asp-action="Index">Volver</a>
+    </div>
+}
+else
+{   <div>
+        <a asp-controller="Home" asp-action="Index">Volver</a>
+    </div>
+}
 
 
 

@@ -29,7 +29,6 @@
             <div>
                 <label asp-for="Especialidad" class="control-label"></label>
                 <select asp-for="Especialidad" asp-items="Html.GetEnumSelectList<Especialidad>()" class="form-control">
-                    <!-- <option selected="selected" value="">Please select</option>-->
                 </select>
             </div>
             <br />
@@ -68,7 +67,7 @@
 </div>
 
 <div>
-    <a asp-action="IniciarSesion">Volver a iniciar sesion</a>
+    <a asp-controller="Home" asp-action="Index">Volver al Home</a>
 </div>
 
 @section Scripts {

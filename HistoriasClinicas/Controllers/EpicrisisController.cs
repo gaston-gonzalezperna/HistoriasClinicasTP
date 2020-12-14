@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -30,6 +31,11 @@ namespace HistoriasClinicas2.Controllers
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
+            if (validacionId(id))
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +59,27 @@ namespace HistoriasClinicas2.Controllers
             return View();
         }
 
+        private bool validacionId(int? id)
+        {
+
+            if (User.IsInRole("Paciente"))
+            {
+                int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var paciente1 = _context.Pacientes.Where(m => m.Id == id).FirstOrDefault();
+
+                if (paciente1 == null)
+                {
+                    return false;
+                }
+
+                if (userId != paciente1.UsuarioId)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

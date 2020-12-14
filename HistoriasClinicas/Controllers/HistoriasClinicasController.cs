@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HistoriasClinicas.Controllers
 {
@@ -48,7 +49,7 @@ namespace HistoriasClinicas.Controllers
             return RedirectToAction("Index", "Episodios", new { @id = historiaClinica.Id });
         }
 
-         // GET: HistoriasClinicas/Edit/5
+        // GET: HistoriasClinicas/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
         //    if (id == null)

@@ -28,7 +28,7 @@ namespace HistoriasClinicas2.Controllers
             return View(await eFContext.ToListAsync());
         }
 
-        [Authorize(Roles = "Empleado, Medico")]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             

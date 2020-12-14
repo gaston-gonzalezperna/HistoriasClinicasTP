@@ -145,7 +145,7 @@ namespace HistoriasClinicas2.Controllers
         //}
 
         // GET: Episodios/Delete/5
-        [Authorize(Roles = "Empleado, Medico")]
+        [Authorize(Roles = "Empleado,Medico")]
         public async Task<IActionResult> Cerrar(int? id)
         {
             if (id == null)
@@ -179,6 +179,7 @@ namespace HistoriasClinicas2.Controllers
 
             return View();
         }
+
 
         [HttpPost, ActionName("Cerrar")]
         [ValidateAntiForgeryToken]

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -23,6 +24,10 @@ namespace HistoriasClinicas2.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int? id)
         {
+            if (validacionId(id))
+            {
+                return NotFound();
+            }
             var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id); //trae las evoluciones de ese episodio
             var episodio = _context.Episodios.Where(e => e.Id == id).FirstOrDefault(); //trae el episodio de ese id
             var idHistoria = episodio.HistoriaClinicaId; //busca la HC de ese episodio
@@ -34,6 +39,11 @@ namespace HistoriasClinicas2.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
+            if (validacionId(id))
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +58,28 @@ namespace HistoriasClinicas2.Controllers
             }
 
             return View(evolucion);
+        }
+
+        private bool validacionId(int? id)
+        {
+
+            if (User.IsInRole("Paciente"))
+            {
+                int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var paciente1 = _context.Pacientes.Where(m => m.Id == id).FirstOrDefault();
+
+                if (paciente1 == null)
+                {
+                    return false;
+                }
+
+                if (userId != paciente1.UsuarioId)
+                {
+                    return true;
+                }
+
+            }
+            return false;
         }
 
         [Authorize(Roles = "Medico")]
