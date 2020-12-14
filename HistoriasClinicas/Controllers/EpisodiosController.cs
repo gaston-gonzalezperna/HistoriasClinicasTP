@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -19,7 +20,7 @@ namespace HistoriasClinicas2.Controllers
             _context = context;
         }
 
-        // GET: Episodios
+        [Authorize]
         public async Task<IActionResult> Index(int? id)
         {
             var episodios = await _context.Episodios.Where(e => e.HistoriaClinica.Id == id).ToListAsync();
@@ -39,7 +40,7 @@ namespace HistoriasClinicas2.Controllers
             return View(episodios);
         }
 
-        // GET: Episodios/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,7 +59,7 @@ namespace HistoriasClinicas2.Controllers
             return View(episodio);
         }
 
-        // GET: Episodios/Create
+        [Authorize(Roles = "Empleado")]
         public IActionResult Create(int? id)
         {
             Episodio episodio = new Episodio();
@@ -66,9 +67,6 @@ namespace HistoriasClinicas2.Controllers
             return View(episodio);
         }
 
-        // POST: Episodios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Motivo,Descripcion,HistoriaClinicaId")] Episodio episodio)
@@ -147,6 +145,7 @@ namespace HistoriasClinicas2.Controllers
         //}
 
         // GET: Episodios/Delete/5
+        [Authorize(Roles = "Empleado, Medico")]
         public async Task<IActionResult> Cerrar(int? id)
         {
             if (id == null)
@@ -181,7 +180,6 @@ namespace HistoriasClinicas2.Controllers
             return View();
         }
 
-        // POST: Episodios/Delete/5
         [HttpPost, ActionName("Cerrar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CerrarConfirmed(int id, [Bind("FechaYHoraAlta")] Episodio episodio )

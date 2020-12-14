@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -20,14 +21,14 @@ namespace HistoriasClinicas2.Controllers
             _context = context;
         }
 
-        // GET: Pacientes
+        [Authorize(Roles = "Empleado, Medico")]
         public async Task<IActionResult> Index()
         {
             var eFContext = _context.Pacientes.Include(p => p.Usuario);
             return View(await eFContext.ToListAsync());
         }
 
-        // GET: Pacientes/Details/5
+        [Authorize(Roles = "Empleado, Medico")]
         public async Task<IActionResult> Details(int? id)
         {
             
@@ -100,6 +101,8 @@ namespace HistoriasClinicas2.Controllers
         //}
 
         // GET: Pacientes/Edit/5
+
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -116,9 +119,7 @@ namespace HistoriasClinicas2.Controllers
             return View(paciente);
         }
 
-        // POST: Pacientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Direccion,Telefono,Email,ObraSocial,UsuarioId")] Paciente paciente)

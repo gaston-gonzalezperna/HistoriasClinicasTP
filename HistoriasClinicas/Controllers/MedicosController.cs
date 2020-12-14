@@ -19,14 +19,14 @@ namespace HistoriasClinicas.Controllers
             _context = context;
         }
 
-        // GET: Medicos
+
         public async Task<IActionResult> Index()
         {
             var eFContext = _context.Medicos.Include(m => m.Usuario);
             return View(await eFContext.ToListAsync());
         }
 
-        // GET: Medicos/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

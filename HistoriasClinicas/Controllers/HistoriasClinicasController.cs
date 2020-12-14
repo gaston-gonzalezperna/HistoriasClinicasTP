@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas.Controllers
 {
@@ -19,15 +20,14 @@ namespace HistoriasClinicas.Controllers
             _context = context;
         }
 
-        // GET: HistoriasClinicas
-        // solo si es admin
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var eFContext = _context.HistoriaClinicas.Include(h => h.Paciente);
             return View(await eFContext.ToListAsync());
         }
 
-        // GET: HistoriasClinicas/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

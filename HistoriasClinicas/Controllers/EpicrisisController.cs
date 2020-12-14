@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -19,14 +20,14 @@ namespace HistoriasClinicas2.Controllers
             _context = context;
         }
 
-        // GET: Epicrisis
-        public async Task<IActionResult> Index()
-        {
-            var eFContext = _context.Epicrisis.Include(e => e.Episodio);
-            return View(await eFContext.ToListAsync());
-        }
 
-        // GET: Epicrisis/Details/5
+        //public async Task<IActionResult> Index()
+        //{
+        //    var eFContext = _context.Epicrisis.Include(e => e.Episodio);
+        //    return View(await eFContext.ToListAsync());
+        //}
+
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,16 +46,14 @@ namespace HistoriasClinicas2.Controllers
             return View(epicrisis);
         }
 
-        // GET: Epicrisis/Create
+        [Authorize(Roles = "Empleado, Medico")]
         public IActionResult Create(int? idEpi)
         {
             ViewBag.EpisodioId = idEpi;
             return View();
         }
 
-        // POST: Epicrisis/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NombreMedico,EpisodioId")] Epicrisis epicrisis)

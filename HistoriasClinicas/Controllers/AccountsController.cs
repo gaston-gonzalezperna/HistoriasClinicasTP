@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HistoriasClinicas.ViewModels;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -96,13 +97,14 @@ namespace HistoriasClinicas2.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Empleado, Administrador")]
         [HttpGet]
         public IActionResult RegistrarMedico()
         {
             return View();
         }
 
-        //Solo accesible por Administrador y Empleado
+        
         [HttpPost]
         public async Task<IActionResult> RegistrarMedico(MedicoDto model)
         {
@@ -155,13 +157,13 @@ namespace HistoriasClinicas2.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Empleado, Administrador")]
         [HttpGet]
         public IActionResult RegistrarEmpleado()
         {
             return View();
         }
 
-        //Solo accesible por el administrador
         [HttpPost]
         public async Task<IActionResult> RegistrarEmpleado(EmpleadoDto model)
         {
@@ -248,6 +250,7 @@ namespace HistoriasClinicas2.Controllers
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> ActualizarEmail(string nuevoEmail, string idUsuario)
         {
             var usuarioEncontrado = await _usrmgr.FindByIdAsync(idUsuario);
@@ -279,27 +282,7 @@ namespace HistoriasClinicas2.Controllers
             return Json($"Usuario no encontrado");             
         }
 
-        //public async Task<IActionResult> BorrarUsuario(string email)
-        //{
-        //    var usuarioEncontrado = await _usrmgr.FindByEmailAsync(email);
-
-        //    if (usuarioEncontrado != null)
-        //    {
-        //        var resultadoDelete = await _usrmgr.DeleteAsync(usuarioEncontrado);
-
-        //        if (resultadoDelete.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Pacientes");
-        //        }
-        //        else
-        //        {
-        //            return Json($"Usuario no eliminado");
-        //        }
-        //    }
-
-        //    return Json($"Usuario no eliminado");
-        //}
-
+        [Authorize]
         public async Task<IActionResult> CerrarSesion()
         {
             await _signinmgr.SignOutAsync();

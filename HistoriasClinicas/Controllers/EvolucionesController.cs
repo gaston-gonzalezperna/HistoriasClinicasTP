@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -19,7 +20,7 @@ namespace HistoriasClinicas2.Controllers
             _context = context;
         }
 
-        // GET: Evoluciones
+        [Authorize]
         public async Task<IActionResult> Index(int? id)
         {
             var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id); //trae las evoluciones de ese episodio
@@ -31,7 +32,6 @@ namespace HistoriasClinicas2.Controllers
             return View(await eFContext.ToListAsync());
         }
 
-        // GET: Evoluciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,16 +50,13 @@ namespace HistoriasClinicas2.Controllers
             return View(evolucion);
         }
 
-        // GET: Evoluciones/Create
+        [Authorize(Roles = "Medico")]
         public IActionResult Create(int? id)
         {
             ViewBag.Id = id;
             return View();
         }
 
-        // POST: Evoluciones/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? id, [Bind("DescripcionAtencion")] Evolucion evolucion)
@@ -145,6 +142,7 @@ namespace HistoriasClinicas2.Controllers
         //}
 
         // GET: Evoluciones/Delete/5
+        [Authorize(Roles = "Medico")]
         public async Task<IActionResult> Cerrar(int? id)
         {
             if (id == null)
@@ -163,7 +161,6 @@ namespace HistoriasClinicas2.Controllers
             return View(evolucion);
         }
 
-        // POST: Evoluciones/Delete/5
         [HttpPost, ActionName("Cerrar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CerrarConfirmed(int id)

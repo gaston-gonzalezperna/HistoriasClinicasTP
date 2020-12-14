@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas.Controllers
 {
@@ -19,7 +20,7 @@ namespace HistoriasClinicas.Controllers
             _context = context;
         }
 
-        // GET: Notas
+        [Authorize(Roles = "Empleado, Medico")]
         public async Task<IActionResult> Index(int? id)
         {
             var eFContext = _context.Notas.Where(n => n.EvolucionId == id);
@@ -31,7 +32,7 @@ namespace HistoriasClinicas.Controllers
             return View(await eFContext.ToListAsync());
         }
 
-        // GET: Notas/Details/5
+        [Authorize(Roles = "Empleado, Medico")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,16 +51,14 @@ namespace HistoriasClinicas.Controllers
             return View(nota);
         }
 
-        // GET: Notas/Create
+        [Authorize(Roles = "Empleado, Medico")]
         public IActionResult Create(int? id)
         {
             ViewBag.Id = id;
             return View();
         }
 
-        // POST: Notas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? id, [Bind("Mensaje")] Nota nota)

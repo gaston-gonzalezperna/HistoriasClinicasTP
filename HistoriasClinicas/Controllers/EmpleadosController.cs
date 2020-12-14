@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoriasClinicas2.Data;
 using HistoriasClinicas2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HistoriasClinicas2.Controllers
 {
@@ -27,6 +28,7 @@ namespace HistoriasClinicas2.Controllers
         //}
 
         // GET: Empleados/Details/5
+        [Authorize(Roles = "Empleado, Administrador")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
