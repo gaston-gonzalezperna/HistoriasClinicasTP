@@ -1,13 +1,12 @@
 ﻿@model HistoriasClinicas2.Models.Diagnostico
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Diagnostico";
 }
 
-<h1>Details</h1>
+<h1>Diagnostico</h1>
 
 <div>
-    <h4>Diagnostico</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -22,15 +21,8 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Recomendacion)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Epicrisis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Epicrisis.Id)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Episodios" asp-action="Index" asp-route-id="@ViewBag.Id">Volver a Episodios</a>
 </div>

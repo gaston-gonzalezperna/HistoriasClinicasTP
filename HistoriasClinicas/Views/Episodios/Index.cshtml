@@ -34,41 +34,47 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Motivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+                </td>
+                @if (item.EstadoAbierto)
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Motivo)
+                        @Html.Display("abierto")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
+                        @Html.Display("abierto")
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+                        @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
                     </td>
-                    @if (item.EstadoAbierto)
-                    {
-                        <td>
-                            @Html.Display("abierto")
-                        </td>
-                        <td>
-                            @Html.Display("abierto")
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
-                        </td>
-                    }
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoAbierto)
+                </td>
+                <td>
+                    <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
+                </td>
+                @if (!item.EstadoAbierto)
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.EstadoAbierto)
+                        <a asp-controller="Diagnosticos" asp-action="Details" asp-route-id="@item.Id">Ver Diagnostico</a>
                     </td>
-                    <td>
-                        <a asp-controller="Evoluciones" asp-action="Index" asp-route-id="@item.Id">Ver Evoluciones</a>
-                    </td>
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table> }

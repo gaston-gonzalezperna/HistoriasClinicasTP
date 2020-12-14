@@ -49,6 +49,10 @@ namespace HistoriasClinicas2.Controllers
                 return NotFound();
             }
 
+            var epicrisis = _context.Epicrisis.Where(e => e.Id == diagnostico.EpicrisisId).FirstOrDefault();
+            var episodio = _context.Episodios.Where(e => e.Id == epicrisis.EpisodioId).FirstOrDefault();
+
+            ViewBag.Id = episodio.HistoriaClinicaId;
             return View(diagnostico);
         }
 
