@@ -6,11 +6,15 @@
 
 @if (User.IsInRole("Paciente"))
 {
-    <h1 class="bg-warning">Su Historia Clinica se encuentra vacia al @DateTime.Now</h1>
+    <div class="card card-alert">
+        <p>No hay Episodios cargados al @DateTime.Now</p>
+    </div>
 }
 else if (User.IsInRole("Empleado"))
 {
-    <h1 class="bg-warning">Sin episodios</h1>
+    <div class="card card-alert">
+        <p>No hay Episodios cargados</p>
+    </div>
     <a asp-action="Create" asp-controller="Episodios" asp-route-id="@Model.Id">Añadir Episodios</a>
     <br />
     <div>
@@ -19,7 +23,9 @@ else if (User.IsInRole("Empleado"))
 }
 else
 {
-    <h1 class="bg-warning">Sin episodios</h1>
+    <div class="card card-alert">
+        <p>No hay Episodios cargados</p>
+    </div>
     <br />
     <div>
         <a asp-controller="Pacientes" asp-action="Index">Volver</a>

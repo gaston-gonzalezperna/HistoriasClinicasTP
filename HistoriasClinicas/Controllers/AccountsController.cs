@@ -279,26 +279,26 @@ namespace HistoriasClinicas2.Controllers
             return Json($"Usuario no encontrado");             
         }
 
-        public async Task<IActionResult> BorrarUsuario(string email)
-        {
-            var usuarioEncontrado = await _usrmgr.FindByEmailAsync(email);
+        //public async Task<IActionResult> BorrarUsuario(string email)
+        //{
+        //    var usuarioEncontrado = await _usrmgr.FindByEmailAsync(email);
 
-            if (usuarioEncontrado != null)
-            {
-                var resultadoDelete = await _usrmgr.DeleteAsync(usuarioEncontrado);
+        //    if (usuarioEncontrado != null)
+        //    {
+        //        var resultadoDelete = await _usrmgr.DeleteAsync(usuarioEncontrado);
 
-                if (resultadoDelete.Succeeded)
-                {
-                    return RedirectToAction("Index", "Pacientes");
-                }
-                else
-                {
-                    return Json($"Usuario no eliminado");
-                }
-            }
+        //        if (resultadoDelete.Succeeded)
+        //        {
+        //            return RedirectToAction("Index", "Pacientes");
+        //        }
+        //        else
+        //        {
+        //            return Json($"Usuario no eliminado");
+        //        }
+        //    }
 
-            return Json($"Usuario no eliminado");
-        }
+        //    return Json($"Usuario no eliminado");
+        //}
 
         public async Task<IActionResult> CerrarSesion()
         {

@@ -70,7 +70,7 @@
                 @if (User.IsInRole("Medico") && item.EstadoAbierto)
                 {
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Cerrar</a>
+                    <a asp-action="Cerrar" asp-route-id="@item.Id">Cerrar</a>
                 </td>
             }
             </tr>

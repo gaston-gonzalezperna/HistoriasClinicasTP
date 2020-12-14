@@ -76,28 +76,28 @@ namespace HistoriasClinicas2.Controllers
 
 
         // GET: Pacientes/Create
-        public IActionResult Create()
-        {
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator");
+        //    return View();
+        //}
 
         // POST: Pacientes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,Direccion,FechaAlta,UsuarioId")] Paciente paciente)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(paciente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-         //  ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
-            return View(paciente);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,Direccion,FechaAlta,UsuarioId")] Paciente paciente)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(paciente);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        // //  ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Discriminator", paciente.UsuarioId);
+        //    return View(paciente);
+        //}
 
         // GET: Pacientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -154,34 +154,34 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Pacientes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var paciente = await _context.Pacientes
-                .Include(p => p.Usuario)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (paciente == null)
-            {
-                return NotFound();
-            }
+        //    var paciente = await _context.Pacientes
+        //        .Include(p => p.Usuario)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (paciente == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(paciente);
-        }
+        //    return View(paciente);
+        //}
 
-        // POST: Pacientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var paciente = await _context.Pacientes.FindAsync(id);
-            _context.Pacientes.Remove(paciente);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("BorrarUsuario", "Accounts", new { email = paciente.Email });
-        }
+        //// POST: Pacientes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var paciente = await _context.Pacientes.FindAsync(id);
+        //    _context.Pacientes.Remove(paciente);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction("BorrarUsuario", "Accounts", new { email = paciente.Email });
+        //}
 
         private bool PacienteExists(int id)
         {

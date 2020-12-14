@@ -49,91 +49,91 @@ namespace HistoriasClinicas.Controllers
         }
 
          // GET: HistoriasClinicas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var historiaClinica = await _context.HistoriaClinicas.FindAsync(id);
-            if (historiaClinica == null)
-            {
-                return NotFound();
-            }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Id", historiaClinica.PacienteId);
-            return View(historiaClinica);
-        }
+        //    var historiaClinica = await _context.HistoriaClinicas.FindAsync(id);
+        //    if (historiaClinica == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Id", historiaClinica.PacienteId);
+        //    return View(historiaClinica);
+        //}
 
         // POST: HistoriasClinicas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PacienteId")] HistoriaClinica historiaClinica)
-        {
-            if (id != historiaClinica.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,PacienteId")] HistoriaClinica historiaClinica)
+        //{
+        //    if (id != historiaClinica.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(historiaClinica);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HistoriaClinicaExists(historiaClinica.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Id", historiaClinica.PacienteId);
-            return View(historiaClinica);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(historiaClinica);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!HistoriaClinicaExists(historiaClinica.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Id", historiaClinica.PacienteId);
+        //    return View(historiaClinica);
+        //}
 
         // GET: HistoriasClinicas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var historiaClinica = await _context.HistoriaClinicas
-                .Include(h => h.Paciente)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (historiaClinica == null)
-            {
-                return NotFound();
-            }
+        //    var historiaClinica = await _context.HistoriaClinicas
+        //        .Include(h => h.Paciente)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (historiaClinica == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(historiaClinica);
-        }
+        //    return View(historiaClinica);
+        //}
 
-        // POST: HistoriasClinicas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var historiaClinica = await _context.HistoriaClinicas.FindAsync(id);
-            _context.HistoriaClinicas.Remove(historiaClinica);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: HistoriasClinicas/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var historiaClinica = await _context.HistoriaClinicas.FindAsync(id);
+        //    _context.HistoriaClinicas.Remove(historiaClinica);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool HistoriaClinicaExists(int id)
-        {
-            return _context.HistoriaClinicas.Any(e => e.Id == id);
-        }
+        //private bool HistoriaClinicaExists(int id)
+        //{
+        //    return _context.HistoriaClinicas.Any(e => e.Id == id);
+        //}
     }
 }

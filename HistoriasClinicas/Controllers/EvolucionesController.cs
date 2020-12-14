@@ -20,7 +20,7 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Evoluciones
-        public async Task<IActionResult> Index(int? id) //a veces le pasa episodio y a veces evolucion?
+        public async Task<IActionResult> Index(int? id)
         {
             var eFContext = _context.Evoluciones.Where(e => e.EpisodioId == id); //trae las evoluciones de ese episodio
             var episodio = _context.Episodios.Where(e => e.Id == id).FirstOrDefault(); //trae el episodio de ese id
@@ -89,63 +89,63 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // GET: Evoluciones/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var evolucion = await _context.Evoluciones.FindAsync(id);
-            if (evolucion == null)
-            {
-                return NotFound();
-            }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
-            return View(evolucion);
-        }
+        //    var evolucion = await _context.Evoluciones.FindAsync(id);
+        //    if (evolucion == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
+        //    return View(evolucion);
+        //}
 
         // POST: Evoluciones/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, DescripcionAtencion")] Evolucion evolucion)
-        {
-            if (id != evolucion.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id, DescripcionAtencion")] Evolucion evolucion)
+        //{
+        //    if (id != evolucion.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var e = await _context.Evoluciones.FindAsync(id);
-                    e.DescripcionAtencion = evolucion.DescripcionAtencion;
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var e = await _context.Evoluciones.FindAsync(id);
+        //            e.DescripcionAtencion = evolucion.DescripcionAtencion;
 
-                    _context.Update(e);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EvolucionExists(evolucion.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index", new { id });
-            }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
-            return View(evolucion);
-        }
+        //            _context.Update(e);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!EvolucionExists(evolucion.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction("Index", new { id });
+        //    }
+        //    ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", evolucion.EpisodioId);
+        //    return View(evolucion);
+        //}
 
         // GET: Evoluciones/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Cerrar(int? id)
         {
             if (id == null)
             {
@@ -164,9 +164,9 @@ namespace HistoriasClinicas2.Controllers
         }
 
         // POST: Evoluciones/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Cerrar")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> CerrarConfirmed(int id)
         {
             var evolucion = await _context.Evoluciones.FindAsync(id);
             evolucion.EstadoAbierto = false;

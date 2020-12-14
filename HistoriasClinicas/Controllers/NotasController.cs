@@ -88,90 +88,90 @@ namespace HistoriasClinicas.Controllers
         }
 
         // GET: Notas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var nota = await _context.Notas.FindAsync(id);
-            if (nota == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Id = nota.EvolucionId;
-            return View(nota);
-        }
+        //    var nota = await _context.Notas.FindAsync(id);
+        //    if (nota == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewBag.Id = nota.EvolucionId;
+        //    return View(nota);
+        //}
 
         // POST: Notas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Mensaje,FechaYHora,NombreAutor,EvolucionId")] Nota nota)
-        {
-            if (id != nota.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Mensaje,FechaYHora,NombreAutor,EvolucionId")] Nota nota)
+        //{
+        //    if (id != nota.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var n = await _context.Notas.FindAsync(id);
-                    n.Mensaje = nota.Mensaje;
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var n = await _context.Notas.FindAsync(id);
+        //            n.Mensaje = nota.Mensaje;
 
-                    _context.Update(n);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NotaExists(nota.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index", new { id });
-            }
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id", nota.EvolucionId);
-            return View(nota);
-        }
+        //            _context.Update(n);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!NotaExists(nota.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction("Index", new { id });
+        //    }
+        //    ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "Id", nota.EvolucionId);
+        //    return View(nota);
+        //}
 
         // GET: Notas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var nota = await _context.Notas
-                .Include(n => n.Evolucion)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (nota == null)
-            {
-                return NotFound();
-            }
+        //    var nota = await _context.Notas
+        //        .Include(n => n.Evolucion)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (nota == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(nota);
-        }
+        //    return View(nota);
+        //}
 
-        // POST: Notas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var nota = await _context.Notas.FindAsync(id);
-            _context.Notas.Remove(nota);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Notas/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var nota = await _context.Notas.FindAsync(id);
+        //    _context.Notas.Remove(nota);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool NotaExists(int id)
         {

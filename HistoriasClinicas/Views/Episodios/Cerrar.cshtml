@@ -1,7 +1,7 @@
 ﻿@model HistoriasClinicas2.Models.Episodio
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Cerrar";
 }
 
 <h3>¿Desea cerrar este episodio?</h3>
@@ -9,7 +9,7 @@
     <hr />
     @if (Model != null)
     {
-        <form asp-action="Delete">
+        <form asp-action="Cerrar">
             @if (User.IsInRole("Medico"))
             {
                 <div class="form-group">
@@ -21,6 +21,7 @@
             <input type="hidden" asp-for="Id" value="@ViewBag.IdEpisodio" />
             <input type="submit" value="Cerrar" class="btn btn-danger" />
         </form>
+        <a asp-action="Index" asp-route-id="@ViewBag.IdHistoriaClinica">Volver a Historia Clinica</a>
     }
     else
     {
@@ -28,8 +29,5 @@
             <p>Todavia hay Evoluciones Abiertas</p>
         </div>
     }
-
-    <a asp-action="Index" asp-route-id="@Model.HistoriaClinicaId">Volver a Historia Clinica</a>
-
 
 </div>

@@ -55,115 +55,115 @@ namespace HistoriasClinicas2.Controllers
         // POST: Epicrisis/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("NombreMedico,EpisodioId")] Epicrisis epicrisis)
-        //{
-
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    epicrisis.FechaYHora = DateTime.Now;
-
-        //    //    var Episodio = await _context.Episodios
-        //    //    .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
-        //    //    Episodio.EstadoAbierto = false;
-
-        //    //    epicrisis.Episodio = Episodio;
-
-        //    //    _context.Add(epicrisis);              
-        //    //    _context.Update(Episodio);
-                
-        //    //    await _context.SaveChangesAsync();
-
-
-        //    //    return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
-        //    //}
-        //    //ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
-        //    //return View(epicrisis);
-        //}
-
-        // GET: Epicrisis/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var epicrisis = await _context.Epicrisis.FindAsync(id);
-            if (epicrisis == null)
-            {
-                return NotFound();
-            }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
-            return View(epicrisis);
-        }
-
-        // POST: Epicrisis/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreMedico,FechaYHora,EpisodioId")] Epicrisis epicrisis)
+        public async Task<IActionResult> Create([Bind("NombreMedico,EpisodioId")] Epicrisis epicrisis)
         {
-            if (id != epicrisis.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(epicrisis);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EpicrisisExists(epicrisis.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                epicrisis.FechaYHora = DateTime.Now;
+
+                var Episodio = await _context.Episodios
+                .FirstOrDefaultAsync(m => m.Id == epicrisis.EpisodioId);
+                Episodio.EstadoAbierto = false;
+
+                epicrisis.Episodio = Episodio;
+
+                _context.Add(epicrisis);
+                _context.Update(Episodio);
+
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction("Create", "Diagnosticos", new { @idEpi = epicrisis.Id });
             }
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
             return View(epicrisis);
         }
 
+        // GET: Epicrisis/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var epicrisis = await _context.Epicrisis.FindAsync(id);
+        //    if (epicrisis == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
+        //    return View(epicrisis);
+        //}
+
+        //// POST: Epicrisis/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,NombreMedico,FechaYHora,EpisodioId")] Epicrisis epicrisis)
+        //{
+        //    if (id != epicrisis.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(epicrisis);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!EpicrisisExists(epicrisis.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Id", epicrisis.EpisodioId);
+        //    return View(epicrisis);
+        //}
+
         // GET: Epicrisis/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var epicrisis = await _context.Epicrisis
-                .Include(e => e.Episodio)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (epicrisis == null)
-            {
-                return NotFound();
-            }
+        //    var epicrisis = await _context.Epicrisis
+        //        .Include(e => e.Episodio)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (epicrisis == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(epicrisis);
-        }
+        //    return View(epicrisis);
+        //}
 
-        // POST: Epicrisis/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var epicrisis = await _context.Epicrisis.FindAsync(id);
-            _context.Epicrisis.Remove(epicrisis);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Epicrisis/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var epicrisis = await _context.Epicrisis.FindAsync(id);
+        //    _context.Epicrisis.Remove(epicrisis);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool EpicrisisExists(int id)
         {
