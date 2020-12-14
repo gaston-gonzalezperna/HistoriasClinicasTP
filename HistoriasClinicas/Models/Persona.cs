@@ -17,6 +17,8 @@ namespace HistoriasClinicas2.Models
         public string Telefono { get; set; }
         public string Email { get; set; }
         public string Direccion { get; set; }
+
+        [Display(Name = "Fecha de Alta")]
         public DateTime FechaAlta { get; set; }
         public int UsuarioId { get; set; }
         [ForeignKey("UsuarioId")]

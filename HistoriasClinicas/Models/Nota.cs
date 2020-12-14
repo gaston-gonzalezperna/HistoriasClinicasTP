@@ -12,7 +12,11 @@ namespace HistoriasClinicas2.Models
         [Key]
         public int Id { get; set; }
         public string Mensaje { get; set; }
+
+        [Display(Name = "Creacion Nota")]
         public DateTime FechaYHora { get; set; }
+
+        [Display(Name = "Creada por..")]
         public string NombreAutor { get; set; }
         public int EvolucionId { get; set; }
         [ForeignKey("EvolucionId")]

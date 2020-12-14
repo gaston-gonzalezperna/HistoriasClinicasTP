@@ -11,7 +11,10 @@ namespace HistoriasClinicas2.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Nombre del Medico")]
         public string NombreMedico { get; set; }
+
+        [Display(Name = "Fecha y Hora")]
         public DateTime FechaYHora { get; set; }
         public Diagnostico Diagnostico { get; set; }
         public int EpisodioId { get; set; }
